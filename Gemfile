@@ -1,10 +1,9 @@
-source :rubygems
+source "https://rubygems.org"
 
 gemspec
 
 gem 'jquery-rails'
-# gem 'debugger'
-gem 'carrierwave', git: 'git://github.com/jnicklas/carrierwave.git'
+gem 'carrierwave'
 group :assets do
   gem 'coffee-rails', '~> 3.2.1'
   gem 'uglifier',     '~> 1.2.1'
