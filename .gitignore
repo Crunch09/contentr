@@ -1,7 +1,7 @@
 .DS_Store
 .bundle
 .sass-cache
-Gemfile.lock
+/Gemfile.lock
 tmp
 spec/dummy/log/*.log
 spec/dummy/tmp/**/*
