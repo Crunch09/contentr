@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 describe "files" do
-  
+
   before do
-    file = File.new(Rails.root + '../support/dummy.jpg')  
-    @image = Contentr::File.new(description: "test", slug: "test", file:  ActionDispatch::Http::UploadedFile.new(tempfile: file, filename: File.basename(file)))  
-    file.close  
+    file = File.new(Rails.root + '../support/dummy.jpg')
+    @image = Contentr::File.new(description: "test", slug: "test", file:  ActionDispatch::Http::UploadedFile.new(tempfile: file, filename: File.basename(file)))
+    file.close
     @image.save
     Capybara.current_driver = :rack_test
     #Rack::Test::UploadedFile.new(Rails.root.join("spec/support/test.png"), 'image/png')

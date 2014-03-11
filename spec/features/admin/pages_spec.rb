@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Contentr::Admin::PagesController do
   let!(:site) { FactoryGirl.create(:site, slug: "foobar") }
   let!(:contentpage) { FactoryGirl.create(:contentpage_with_paragraphs) }
-  
+
   describe "#index" do
     before { visit "/contentr/admin/pages" }
 
@@ -24,11 +24,11 @@ describe Contentr::Admin::PagesController do
     end
 
     it "has a link to edit the site" do
-      page.should have_selector("icon.icon-edit")
+      page.should have_selector("i.fa.fa-edit")
     end
 
     it "has a link to delete the page" do
-      page.should have_selector("icon.icon-remove")
+      page.should have_selector("i.fa.fa-remove")
     end
 
     it "lists the current path" do
@@ -45,9 +45,9 @@ describe Contentr::Admin::PagesController do
 
     it "deletes a paragraph when i click on delete" do
       within("#paragraph_1") do
-        page.click_link("Delete")
+        page.find("a.remove-paragraph-btn").click
       end
-      contentpage.should  have(1).paragraphs
+      expect(contentpage.paragraphs.count).to be 1
     end
 
     it "shows the unpublished version of a paragraph if there is one" do
@@ -55,7 +55,7 @@ describe Contentr::Admin::PagesController do
       para.body = "hell yeah!"
       para.save!
       visit(contentr_admin_pages_path(root: contentpage.id))
-      page.should have_content("hell yeah!")
+      expect(page).to have_content("hell yeah!")
     end
   end
 

@@ -3,31 +3,34 @@
 require 'spec_helper'
 
 describe Contentr::Page do
-  
-  node1 = Contentr::Page.create!(name: 'Node1')
-  node2 = Contentr::Page.create!(name: 'Node2')
-  node3 = Contentr::Page.create!(name: 'Node3')
 
-  node11 = Contentr::Page.create!(name: 'Node11', parent: node1)
-  node12 = Contentr::Page.create!(name: 'Node12', parent: node1)
-  node21 = Contentr::Page.create!(name: 'Node21', parent: node2)
-  node22 = Contentr::Page.create!(name: 'Node22', parent: node2)
-  node31 = Contentr::Page.create!(name: 'Node31', parent: node3)
+  before(:each) do
 
-  node211 = Contentr::Page.create!(name: 'Node211', parent: node21)
-  node212 = Contentr::Page.create!(name: 'Node212', parent: node21)
-  node221 = Contentr::Page.create!(name: 'Node221', parent: node22)
+    node1 = Contentr::Page.create!(name: 'Node1')
+    node2 = Contentr::Page.create!(name: 'Node2')
+    node3 = Contentr::Page.create!(name: 'Node3')
 
-  its 'root nodes' do
+    node11 = Contentr::Page.create!(name: 'Node11', parent: node1)
+    node12 = Contentr::Page.create!(name: 'Node12', parent: node1)
+    node21 = Contentr::Page.create!(name: 'Node21', parent: node2)
+    node22 = Contentr::Page.create!(name: 'Node22', parent: node2)
+    node31 = Contentr::Page.create!(name: 'Node31', parent: node3)
+
+    node211 = Contentr::Page.create!(name: 'Node211', parent: node21)
+    node212 = Contentr::Page.create!(name: 'Node212', parent: node21)
+    node221 = Contentr::Page.create!(name: 'Node221', parent: node22)
+  end
+
+  it 'root nodes' do
     root_nodes = Contentr::Page.roots()
     root_nodes.should_not be_nil
-    root_nodes.should have(3).items
+    expect(root_nodes.count).to be 3
     root_nodes[0].name.should eql "Node1"
     root_nodes[1].name.should eql "Node2"
     root_nodes[2].name.should eql "Node3"
   end
 
-  its 'parent and children relation' do
+  it 'parent and children relation' do
     node = Contentr::Page.where(name: "Node21").first
     node.should_not be_nil
 
@@ -42,7 +45,7 @@ describe Contentr::Page do
     node.parent.name.should eql "Node2"
   end
 
-  its "parent ids" do
+  it "parent ids" do
     node = Contentr::Page.where(name: "Node212").first
     node.should_not be_nil
     [node.parent.parent.id, node.parent.id].should eql node.ancestor_ids

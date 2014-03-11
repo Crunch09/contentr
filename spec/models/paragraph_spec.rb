@@ -12,9 +12,9 @@ def asset(fname)
 end
 
 describe Contentr::Paragraph do
-  
 
-  its "attributes are saved properly" do
+
+  it "attributes are saved properly" do
     tp = TestParagraph.new(name: "huhu!", area_name: 'foo')
     tp.save
     tp.unpublished_data["name"].should eq "huhu!"
@@ -39,7 +39,7 @@ describe Contentr::Paragraph do
     tp.unpublished_data['name'].should eq 'hallo!'
   end
 
-  its "attachments" do
+  it "attachments" do
     tp = TestParagraph.new(name: "huhu!", area_name: 'foo')
     tp.save
     tp.name = "hallo!"
@@ -72,7 +72,7 @@ describe Contentr::Paragraph do
     tp2.save
     tp2.for_edit.photo.url.should match('dhh.jpg')
     tp2.publish!
-    tp2.photo.url.should match(/dhh.jpg/)    
+    tp2.photo.url.should match(/dhh.jpg/)
     tp2.image_asset_wrapper_for("photo").remove_file!(tp2)
     tp2.save
     tp2.photo.url.should match(/dhh/)

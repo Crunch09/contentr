@@ -8,4 +8,3 @@ class Contentr::SiteTabulatrData < Tabulatr::Data
   # end
   column :name
 end
-

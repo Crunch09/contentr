@@ -32,7 +32,7 @@ describe Contentr::Page do
     page.should be_valid
   end
 
-  its 'children of a page must be of type Contentr::Page' do
+  it 'children of a page must be of type Contentr::Page' do
     site = Contentr::Site.create!(name: 'site')
     page = Contentr::Page.create!(name: 'page', parent: site)
     site.should be_valid

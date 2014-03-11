@@ -23,7 +23,7 @@ describe Contentr::Page do
     page.slug.should eql 'test-page'
   end
 
-  its 'slug matches the format /^[a-z0-9\s-]+$/' do
+  it 'slug matches the format /^[a-z0-9\s-]+$/' do
     page = Contentr::Page.new(:name => 'Some other Page')
 
     ['abc', '123', '123abc', 'abc123', 'abc-123', 'abc_123', 'abc+123', 'abc_123', 'öäüß'].each do |p|
@@ -32,7 +32,7 @@ describe Contentr::Page do
     end
   end
 
-  its 'slug is unique within the parent scope' do
+  it 'slug is unique within the parent scope' do
     page1 = Contentr::Page.create!(:name => 'Some Page', :slug => 'it-page')
     page2 = Contentr::Page.new(:name => 'Some other Page', :slug => 'it-page')
     page2.should_not be_valid
@@ -52,7 +52,7 @@ describe Contentr::Page do
     page3.url_path.should eql '/page1/page2/page3'
   end
 
-  its 'path can\'t be set manually' do
+  it 'path can\'t be set manually' do
     page = Contentr::Page.create!(:name => 'Page 1', :slug => 'page1')
     page.url_path.should eql '/page1'
     lambda { page.url_path = 'this_is_not_allowed' }.should raise_error(RuntimeError)

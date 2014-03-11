@@ -66,7 +66,11 @@ $(function (){
             </li>
           </td><td>
             <% unless page.is_a?(Contentr::LinkedPage) %>
-              <li class=""><%= link_to(raw('<i class="fa fa-remove"></i>'), contentr_admin_site_path(page, :root => @root_page), :method => :delete, :confirm => "Really delete page '#{page.name}'? All subpages will be deleted too.") %></li>
+              <li class=""><%= link_to(raw('<i class="fa fa-remove"></i>'),
+                contentr_admin_site_path(page, :root => @root_page),
+                :method => :delete,
+                data: {confirm: "Really delete page '#{page.name}'? All subpages will be deleted too."}) %>
+              </li>
             <% end %>
           </td>
         </tr>

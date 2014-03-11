@@ -39,13 +39,17 @@ function closeIFrame(){
       <% if authorized %>
         <div class="toolbar">
           <div class='row'>
-            <div class='col-lg-10'>
+            <div class='col-xs-10'>
               <div class="handle">&#9776;</div>
               <%= render partial: "/contentr/admin/application/publish", locals: {p: p, area_name: area_name, page: page} %>
             </div>
-            <div class='col-lg-2 btn_area'>
-              <%= link_to("<i class='fa fa-#{t('contentr.toolbar.edit_btn')}'></i>".html_safe, contentr_admin_edit_paragraph_path(:page_id => page, :id => p, :site => page.is_a?(Contentr::Site)), :rel => 'contentr-overlay', class: 'btn btn-mini btn-inverse') %>
-              <%= link_to("<i class='fa fa-#{t('contentr.toolbar.destroy_btn')}'></i>".html_safe, contentr_admin_paragraph_path(:page_id => page, :id => p, :site => page.is_a?(Contentr::Site)), :method => :delete, :confirm => 'Really delete?', class: 'btn btn-mini btn-inverse') %>
+            <div class='col-xs-2 btn_area'>
+              <%= link_to("<i class='fa fa-edit'></i>".html_safe, contentr_admin_edit_paragraph_path(:page_id => page, :id => p, :site => page.is_a?(Contentr::Site)), :rel => 'contentr-overlay', class: 'btn btn-mini btn-inverse') %>
+              <%= link_to("<i class='fa fa-trash-o'></i>".html_safe,
+                    contentr_admin_paragraph_path(:page_id => page, :id => p, :site => page.is_a?(Contentr::Site)),
+                    :method => :delete,
+                    class: 'btn btn-mini btn-inverse remove-paragraph-btn',
+                    data: { confirm: 'Really delete?' }) %>
             </div>
           </div>
         </div>

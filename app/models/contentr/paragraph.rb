@@ -213,4 +213,3 @@ module Contentr
     end
   end
 end
-

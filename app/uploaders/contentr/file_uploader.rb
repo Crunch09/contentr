@@ -5,9 +5,9 @@ class Contentr::FileUploader < CarrierWave::Uploader::Base
   storage :file
   # storage :fog
 
-  def filename 
-    "#{original_filename}" if original_filename 
-  end 
+  def filename
+    "#{original_filename}" if original_filename
+  end
 
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:

@@ -9,34 +9,34 @@
 # from scratch. The latter is a flawed and unsustainable approach (the more migrations
 # you'll amass, the slower it'll run and the greater likelihood for issues).
 #
-# It's strongly recommended to check this file into your version control system.
+# It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120927133445) do
+ActiveRecord::Schema.define(version: 20131112135314) do
 
-  create_table "articles", :force => true do |t|
+  create_table "articles", force: true do |t|
     t.string   "title"
     t.text     "body"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table "files", :force => true do |t|
+  create_table "files", force: true do |t|
     t.string   "description"
     t.string   "slug"
     t.string   "file"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table "image_assets", :force => true do |t|
+  create_table "image_assets", force: true do |t|
     t.string   "file"
     t.string   "file_unpublished"
     t.string   "type"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table "pages", :force => true do |t|
+  create_table "pages", force: true do |t|
     t.string   "name"
     t.string   "slug"
     t.string   "url_path"
@@ -46,28 +46,28 @@ ActiveRecord::Schema.define(:version => 20120927133445) do
     t.string   "ancestry"
     t.string   "description"
     t.string   "menu_title"
-    t.boolean  "published",   :default => false
-    t.boolean  "hidden",      :default => false
-    t.string   "layout",      :default => "application"
-    t.string   "template",    :default => "default"
+    t.boolean  "published",   default: false
+    t.boolean  "hidden",      default: false
+    t.string   "layout",      default: "application"
+    t.string   "template",    default: "default"
     t.string   "linked_to"
-    t.datetime "created_at",                             :null => false
-    t.datetime "updated_at",                             :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  add_index "pages", ["ancestry"], :name => "index_pages_on_ancestry"
-  add_index "pages", ["hidden"], :name => "index_pages_on_hidden"
-  add_index "pages", ["published"], :name => "index_pages_on_published"
+  add_index "pages", ["ancestry"], name: "index_pages_on_ancestry"
+  add_index "pages", ["hidden"], name: "index_pages_on_hidden"
+  add_index "pages", ["published"], name: "index_pages_on_published"
 
-  create_table "paragraphs", :force => true do |t|
+  create_table "paragraphs", force: true do |t|
     t.string   "area_name"
     t.integer  "position"
     t.string   "type"
     t.text     "data"
     t.text     "unpublished_data"
     t.integer  "page_id"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

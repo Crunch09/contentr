@@ -1,6 +1,11 @@
 require 'bootstrap-sass'
 require 'jquery-rails'
 require 'compass-rails'
+require 'tabulatr2'
+require 'bootstrap-wysihtml5-rails'
+require 'jquery-ui-rails'
+require 'carrierwave'
+require 'font-awesome-rails'
 
 module Contentr
 

@@ -16,21 +16,21 @@ describe Contentr::Admin::ParagraphsController do
 
       it "has no revert button" do
         page.should_not have_button("Revert")
-      end 
+      end
 
       it "updates its body" do
         fill_in("paragraph_body", with: "Foobar")
         click_button("Save Paragraph")
         visit("/contentr/admin/pages/#{contentpage.id}/paragraphs/#{contentpage.paragraphs.first.id}/edit")
-        page.find(:css, "input#paragraph_body").value.should eql "Foobar"
+        page.find(:css, "textarea#paragraph_body").value.should eql "Foobar"
       end
     end
 
     context "unpublished changes" do
-      
+
       it "has a publish button" do
         page.has_content?("Publish!")
-      end      
+      end
     end
   end
 
