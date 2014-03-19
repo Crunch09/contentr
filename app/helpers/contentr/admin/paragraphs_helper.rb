@@ -9,7 +9,6 @@ module Contentr
         when Contentr::HtmlParagraph
           p = p.for_edit if contentr_publisher? && current
           s = p.body.html_safe if p.body
-          s += image_tag(p.image.url) if p.image.present?
           s
         else
           p = p.for_edit if contentr_publisher? && current

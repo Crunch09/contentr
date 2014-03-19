@@ -5,9 +5,7 @@ module Contentr
     include ActionView::Helpers
     # Fields
     field :body, :type => 'String'
-    field :image, :uploader => Contentr::FileUploader
 
-    
     # Validations
   end
 end
