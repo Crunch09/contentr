@@ -37,23 +37,23 @@ describe Contentr::Page do
     page2 = Contentr::Page.new(:name => 'Some other Page', :slug => 'it-page')
     page2.should_not be_valid
     assert_equal page2.errors.first[0], :slug
-    assert_equal page2.errors.first[1], 'is already taken'
+    assert_equal page2.errors.first[1], 'must be unique'
     # .. but we can use the same slug in another parent scope
     page2 = Contentr::Page.new(:name => 'Some other Page', :slug => 'it-page', :parent => page1)
     page2.should be_valid, page2.errors.full_messages.join('; ')
   end
 
   it 'has a generated path' do
-    page1 = Contentr::Page.create!(:name => 'Page 1', :slug => 'page1')
-    page2 = Contentr::Page.create!(:name => 'Page 2', :slug => 'page2', :parent => page1)
-    page3 = Contentr::Page.create!(:name => 'Page 3', :slug => 'page3', :parent => page2)
+    page1 = Contentr::Page.create!(:name => 'Page 1', :slug => 'page1').reload
+    page2 = Contentr::Page.create!(:name => 'Page 2', :slug => 'page2', :parent => page1).reload
+    page3 = Contentr::Page.create!(:name => 'Page 3', :slug => 'page3', :parent => page2).reload
     page1.url_path.should eql '/page1'
     page2.url_path.should eql '/page1/page2'
     page3.url_path.should eql '/page1/page2/page3'
   end
 
   it 'path can\'t be set manually' do
-    page = Contentr::Page.create!(:name => 'Page 1', :slug => 'page1')
+    page = Contentr::Page.create!(:name => 'Page 1', :slug => 'page1').reload
     page.url_path.should eql '/page1'
     lambda { page.url_path = 'this_is_not_allowed' }.should raise_error(RuntimeError)
   end
@@ -62,9 +62,9 @@ describe Contentr::Page do
     page1 = Contentr::Page.create!(:name => 'Page 1', :slug => 'page1')
     page2 = Contentr::Page.create!(:name => 'Page 2', :slug => 'page2', :parent => page1)
     page3 = Contentr::Page.create!(:name => 'Page 3', :slug => 'page3', :parent => page2)
-    Contentr::Page.find_by_path('/page1').should_not be_nil
-    Contentr::Page.find_by_path('/page1/page2').should_not be_nil
-    Contentr::Page.find_by_path('/page1/page2/page3').should_not be_nil
-    Contentr::Page.find_by_path('/no_such_page').should be_nil
+    expect(Contentr::Page.find_by_path('/page1')).to eq page1
+    expect(Contentr::Page.find_by_path('/page1/page2')).to eq page2
+    expect(Contentr::Page.find_by_path('/page1/page2/page3')).to eq page3
+    expect(Contentr::Page.find_by_path('/no_such_page')).to be_nil
   end
 end

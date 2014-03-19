@@ -1,0 +1,55 @@
+.panel-group#contentr-areas-accordion
+  - areas.each do |area|
+    .panel.panel-default
+      .panel-heading
+        h4.panel-title
+          a data-toggle="collapse" data-parent="#contentr-areas-accordion" href="#area-#{area.to_s}"
+            = area.to_s
+      div.panel-collapse id="area-#{area.to_s}"
+        div.panel-body
+          .existing-paragraphs data-area="area-#{area.to_s}"
+            - page.paragraphs_for_area(area).each do |paragraph|
+              = render 'contentr/admin/paragraphs/paragraph', paragraph: paragraph
+          .new-paragraph-buttons
+            - Contentr.paragraphs.each do |pc|
+                = link_to pc.title, contentr_admin_new_paragraph_path(page, area, pc.paragraph_class.to_s, site: params[:site]), class: 'btn btn-info paragraph-add-btn', remote: true, data: {area: "area-#{area.to_s}"}
+
+javascript:
+  $('.paragraph-add-btn').on('ajax:success', function(e, data, status, xhr){
+    $('.existing-paragraphs[data-area="'+ $(this).data('area') +'"]').append(data);
+    if($(data).find('.wysihtml').length > 0){
+      $('.existing-paragraphs .wysihtml').wysihtml5({medium: true})
+    }
+  });
+
+  $('.paragraph-edit-btn').on('ajax:success', function(e, data, status, xhr){
+    var $paragraph = $('#paragraph_'+ $(this).data('id'));
+    $paragraph.hide();
+    $paragraph.after(data);
+    if($(data).find('.wysihtml').length > 0){
+      $('.existing-paragraphs .wysihtml').wysihtml5({medium: true})
+    }
+  });
+
+  $(document).on('click', '.cancel-paragraph-edit-btn', function(){
+    if($(this).data('id') !== undefined){
+      var $paragraph = $('#paragraph_'+ $(this).data('id'));
+      $paragraph.show();
+    }
+    $(this).closest('form').remove();
+    return false;
+  });
+
+  $(document).on('ajax:success', 'form.paragraph', function(e, data, status, xhr){
+    var paragraphId = $(this).data('id');
+    if(paragraphId !== undefined){
+      var $existingParagraph = $('#paragraph_'+ paragraphId);
+      if($existingParagraph.length == 1){
+        $existingParagraph.replaceWith(data);
+      }
+    }else{
+      $('.existing-paragraphs[data-area="'+ $(this).closest('[data-area]').data('area') +'"]').append(data);
+    }
+    $(this).remove();
+    return false;
+  });

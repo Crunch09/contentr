@@ -5,7 +5,8 @@ class ArticlesController < ApplicationController
   end
 
   def show
-    @article = Article.find(params[:id])
+    @page = Article.find(params[:id]).generated_page
+    render action: 'show'
   end
 
   def new

@@ -1,10 +1,1 @@
-  <h1><%= t("activerecord.models.#{@paragraph.class.to_s.underscore}") %> bearbeiten</h1>
-  <% if Contentr::Paragraph.find(@paragraph.id).unpublished_data.empty? || Contentr::Paragraph.find(@paragraph.id).data == Contentr::Paragraph.find(@paragraph.id).unpublished_data %>
-  <div class='row'>
-    <a href="#" class="btn col-lg-12 btn-success disabled" disable="disabled"><%= t("contentr.no_unpublished_changes") %></a>
-  </div>
-  <% elsif contentr_publisher? %>
-  <%= link_to "#{t("contentr.publish")}", contentr_admin_publish_paragraph_path(:page_id => @page, :area_name => @area_name, :site => @page.is_a?(Contentr::Site)), class: "bnt btn-mini btn-success" %>
-  <% end %>
-  <% btn_text = "#{t('contentr.update_paragraph')}" %>
-  <%= render 'form', btn_text: btn_text %>
+<%= render 'form' %>

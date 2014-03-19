@@ -5,3 +5,10 @@ en:
   hello: "Hello world"
   contentr:
     publish: Publish!
+  activerecord:
+    errors:
+      models:
+        contentr/page:
+          attributes:
+            slug:
+              must_be_unique: must be unique

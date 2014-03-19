@@ -1,12 +1,10 @@
 # encoding: utf-8
 
-site = Contentr::Site.create!(position: 0, name: "cms", slug: "cms")
+site = Contentr::Site.create!(name: "cms", slug: "cms")
 
 p = Contentr::ContentPage.new(
   parent: site,
-  position: 0,
   name: "Foo",
-  description: "Foo seite",
   slug: "foo",
   published: true,
   hidden: false
@@ -36,9 +34,7 @@ p.save!
 
 p = Contentr::ContentPage.new(
   parent: site,
-  position: 0,
   name: "Bar",
-  description: "Bar seite",
   slug: "bar",
   published: true,
   hidden: false

@@ -3,6 +3,10 @@
 module Contentr
   class Site < Page
 
+    has_many :nav_points, class_name: 'Contentr::NavPoint', dependent: :destroy
+
+    validate :has_no_parent
+
     # Node checks
     self.accepted_parent_nodes = [:root]
     self.accepted_child_nodes  = [Contentr::Page]
@@ -19,6 +23,27 @@ module Contentr
     # Returns the first children of the caller
     def default_page
       self.children.first
+    end
+
+    def navigation
+      self.nav_points.select{|n| n.parent.nil?}.first.subtree.arrange(order: :position)
+    end
+
+    def url_map
+      nil
+    end
+
+    def url_slug
+      nil
+    end
+
+    def rebuild_path!
+    end
+
+    private
+
+    def has_no_parent
+      errors.add(:parent, :must_not_be_set) if self.parent.present?
     end
 
   end

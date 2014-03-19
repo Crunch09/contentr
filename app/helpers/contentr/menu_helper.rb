@@ -5,6 +5,8 @@ module Contentr
 
     # Renders a dynamic menu
     def contentr_menu(options = {})
+      return ''
+
       # set the current page
       current_page = options[:page] || @contentr_page
       return "" unless current_page
@@ -75,6 +77,7 @@ module Contentr
 
     # Renders a breadcrumb
     def contentr_breadcrumb(options = {})
+      return ''
       current_page = @contentr_page
       if current_page.present?
         content_tag(:ul, :class => "contentr #{options[:class] || 'breadcrumb'}") do

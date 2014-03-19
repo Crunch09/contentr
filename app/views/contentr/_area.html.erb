@@ -24,7 +24,7 @@ function closeIFrame(){
         <div class='col-lg-10'>
           <div class="area-name"><%= area_name %></div>
           <div class="page-classname"><%= page.classname %></div>
-          <div class="page-urlpath"><%= page.url_path %></div>
+          <div class="page-urlpath"><%= page.try(:url_path) %></div>
         </div>
         <div class='col-lg-2 btn_area'>
           <%= link_to("<i class='fa fa-#{t('contentr.toolbar.new_btn')}'></i>".html_safe, contentr_admin_new_paragraph_path(:page_id => page, :area_name => area_name, :site => page.is_a?(Contentr::Site)), :rel => 'contentr-overlay', class: 'btn btn-mini btn-inverse') %>
@@ -32,7 +32,6 @@ function closeIFrame(){
       </div>
     </div>
   <% end %>
-
   <% paragraphs.each do |p| %>
     <% template_name = p.class.to_s.underscore %>
     <div id="<%= "paragraph_#{p.id}" %>" class="paragraph">
@@ -44,9 +43,10 @@ function closeIFrame(){
               <%= render partial: "/contentr/admin/application/publish", locals: {p: p, area_name: area_name, page: page} %>
             </div>
             <div class='col-xs-2 btn_area'>
-              <%= link_to("<i class='fa fa-edit'></i>".html_safe, contentr_admin_edit_paragraph_path(:page_id => page, :id => p, :site => page.is_a?(Contentr::Site)), :rel => 'contentr-overlay', class: 'btn btn-mini btn-inverse') %>
+              <%= link_to("<i class='fa fa-edit'></i>".html_safe,
+                    edit_contentr_admin_page_paragraph_path(:page_id => page, :id => p, :site => page.is_a?(Contentr::Site)), :rel => 'contentr-overlay', class: 'btn btn-mini btn-inverse') %>
               <%= link_to("<i class='fa fa-trash-o'></i>".html_safe,
-                    contentr_admin_paragraph_path(:page_id => page, :id => p, :site => page.is_a?(Contentr::Site)),
+                    contentr_admin_page_paragraph_path(:page_id => page, :id => p, :site => page.is_a?(Contentr::Site)),
                     :method => :delete,
                     class: 'btn btn-mini btn-inverse remove-paragraph-btn',
                     data: { confirm: 'Really delete?' }) %>

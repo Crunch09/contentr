@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'rails',          '>= 4.0.0'
   s.add_dependency 'simple_form',    '~> 3.0.0'
   s.add_dependency 'bson_ext',       '~> 1.5'
-  s.add_dependency 'compass-rails',  "> 1.1.3"
+  s.add_dependency 'compass-rails',  "~> 1.1.3"
   s.add_dependency 'sass-rails'
   s.add_dependency 'bootstrap-sass', '> 2.1'
   s.add_dependency 'bootstrap-wysihtml5-rails', "~> 0.3.1.23"
@@ -26,7 +26,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'jquery-ui-rails', '~> 4.2.0'
   s.add_development_dependency 'capybara'
   s.add_development_dependency 'launchy'
-  s.add_development_dependency 'factory_girl_rails', "~> 4.0"
+  s.add_development_dependency 'factory_girl_rails', "~> 4.4.0"
   s.add_development_dependency 'database_cleaner'
   s.add_development_dependency 'poltergeist'
 end

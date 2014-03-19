@@ -4,7 +4,7 @@
   generic, auto-generated form.
 %>
 <% begin %>
-  <%= render "contentr/admin/paragraphs/#{@paragraph.class.to_s.underscore}_form", btn_text: "#{btn_text}" %>
+  <%= render "contentr/admin/paragraphs/#{@paragraph.class.to_s.underscore}_form" %>
 <% rescue ActionView::MissingTemplate %>
   <%= render 'generic_form' %>
 <% end %>

@@ -1,5 +1,5 @@
 jQuery(function($) {
-  $(".show_published_version").click(function(){
+  $(document).on('click', ".show_published_version", function(){
     var clicked = $(this);
     $.ajax({
       type: "GET",

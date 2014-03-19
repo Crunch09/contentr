@@ -21,11 +21,11 @@ ENGINE_RAILS_ROOT=File.join(File.dirname(__FILE__), '../')
 Dir[File.join(ENGINE_RAILS_ROOT, "spec/support/**/*.rb")].each {|f| require f }
 
 
-#config.include FactoryGirl::Syntax::Methods
 
 RSpec.configure do |config|
   config.use_transactional_fixtures = false
 
+  config.include FactoryGirl::Syntax::Methods
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
   end

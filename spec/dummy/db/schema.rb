@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131112135314) do
+ActiveRecord::Schema.define(version: 20140314081205) do
 
   create_table "articles", force: true do |t|
     t.string   "title"
@@ -19,6 +19,19 @@ ActiveRecord::Schema.define(version: 20131112135314) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "contentr_nav_points", force: true do |t|
+    t.integer  "displayable_id"
+    t.string   "displayable_type"
+    t.integer  "site_id"
+    t.string   "title"
+    t.string   "ancestry"
+    t.integer  "position",         default: 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "contentr_nav_points", ["ancestry"], name: "index_contentr_nav_points_on_ancestry"
 
   create_table "files", force: true do |t|
     t.string   "description"
@@ -39,18 +52,17 @@ ActiveRecord::Schema.define(version: 20131112135314) do
   create_table "pages", force: true do |t|
     t.string   "name"
     t.string   "slug"
-    t.string   "url_path"
-    t.integer  "position"
-    t.boolean  "menu_only"
     t.string   "type"
-    t.string   "ancestry"
-    t.string   "description"
     t.string   "menu_title"
-    t.boolean  "published",   default: false
-    t.boolean  "hidden",      default: false
-    t.string   "layout",      default: "application"
-    t.string   "template",    default: "default"
+    t.boolean  "published",        default: false
+    t.boolean  "hidden",           default: false
+    t.string   "layout",           default: "application"
+    t.string   "template",         default: "default"
     t.string   "linked_to"
+    t.string   "ancestry"
+    t.string   "url_path"
+    t.integer  "displayable_id"
+    t.string   "displayable_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -47,9 +47,9 @@ $(function (){
           </td>
           <td class="name">
             <div class="containr">
-              <%=
+              <%#=
                 link_to(contentr_admin_pages_path(:root => page), :rel => 'pm-navigate') do
-                  page.has_children? ? page.name + " >>" : page.name
+                  page.nav_point.has_children? ? page.name + " >>" : page.name
                 end
               %>
             </div>

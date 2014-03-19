@@ -10,7 +10,7 @@ class Contentr::Admin::ParagraphsController < Contentr::Admin::ApplicationContro
     @area_name = params[:area_name]
     if params[:type].present?
       @paragraph = paragraph_type_class.new(area_name: @area_name)
-      render 'new'
+      render 'new', layout: false
     else
       render 'new_select'
     end
@@ -22,8 +22,13 @@ class Contentr::Admin::ParagraphsController < Contentr::Admin::ApplicationContro
     @paragraph.page = @page
     @page_or_site.paragraphs << @paragraph
     if @page_or_site.save!
-      flash[:notice] = 'Paragraph created'
-      redirect_to contentr_admin_pages_path(root: @page.id)
+      if request.xhr?
+        @paragraph = @paragraph.for_edit
+        render action: 'show', layout: false
+      else
+        flash[:notice] = 'Paragraph created'
+        redirect_to contentr_admin_pages_path(root: @page.id)
+      end
     else
       render :action => :new
     end
@@ -32,6 +37,7 @@ class Contentr::Admin::ParagraphsController < Contentr::Admin::ApplicationContro
   def edit
     @paragraph = @page_or_site.paragraphs.find(params[:id])
     @paragraph.for_edit
+    render action: 'edit', layout: false
   end
 
   def update
@@ -40,12 +46,23 @@ class Contentr::Admin::ParagraphsController < Contentr::Admin::ApplicationContro
       @paragraph.image_asset_wrapper_for(params[:paragraph]["remove_image"]).remove_file!(@paragraph)
       params[:paragraph].delete("remove_image")
     end
-    if @paragraph.update_attributes(paragraph_params)
-      flash[:notice] = 'Paragraph saved'
-      redirect_to contentr_admin_pages_path(root: @page.id)
+    if @paragraph.update(paragraph_params)
+      if request.xhr?
+        @paragraph = @paragraph.for_edit
+        render action: 'show', layout: false
+      else
+        flash[:notice] = 'Paragraph saved'
+        redirect_to contentr_admin_pages_path(root: @page.id)
+      end
     else
       render :action => :edit
     end
+  end
+
+  def show
+    @paragraph = @page_or_site.paragraphs.find(params[:id])
+    @paragraph.for_edit
+    render action: 'show', layout: false
   end
 
   def publish
@@ -59,7 +76,7 @@ class Contentr::Admin::ParagraphsController < Contentr::Admin::ApplicationContro
     @paragraph = @page_or_site.paragraphs.find(params[:id])
     @paragraph.revert!
     flash[:notice] = "Reverted this paragraph"
-    redirect_to contentr_admin_pages_path(root: @page.id)
+    redirect_to :back
   end
 
   def show_version

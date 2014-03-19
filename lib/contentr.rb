@@ -34,6 +34,9 @@ module Contentr
   mattr_reader :additional_admin_javascripts
   @@additional_admin_javascripts = []
 
+  mattr_accessor :default_areas
+  @@default_areas = []
+
   # Default way to setup Contentr
   def self.setup
     yield self

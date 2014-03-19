@@ -15,8 +15,8 @@ describe Contentr::Admin::PagesController do
       page.find(:css, 'table#pages_table').should_not be_nil
     end
 
-    it "has two sites in this list" do
-      page.all(:css, 'table#pages_table tbody tr').count.should be(2)
+    it "has one site in this list" do
+      page.all(:css, 'table#pages_table tbody tr').count.should be(1)
     end
 
     it "has a create new site link" do

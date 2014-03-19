@@ -1,18 +1,13 @@
 # coding: utf-8
 
 module Contentr
-  require "ancestry"
   class Page < ActiveRecord::Base
-
-    has_ancestry
 
     # Relations
     has_many :paragraphs, class_name: 'Contentr::Paragraph'
+    belongs_to :displayable, polymorphic: true
 
-    # Protect attributes from mass assignment
-    permitted_attributes :name, :slug, :position, :parent, :url_path, :description,
-                    :menu_title, :published, :hidden, :parent_id, :menu_only, :layout, :template
-
+    acts_as_tree
 
     # Validations
     validates_presence_of   :name
@@ -21,7 +16,8 @@ module Contentr
     # validates_presence_of   :path
     # validates_uniqueness_of :path, allow_nil: false, allow_blank: false
     validate                :check_nodes
-    validate                :check_slug_uniqueness
+
+    validate :slug_unique_within_siblings
 
     # Node checks
     class_attribute :run_node_checks
@@ -34,7 +30,7 @@ module Contentr
     # Callbacks
     before_validation :generate_slug
     before_validation :clean_slug
-    after_save        :rebuild_path
+    after_save        :path_rebuilding
 
 
     # Node checks
@@ -137,24 +133,38 @@ module Contentr
     #
     # Returns true or false
     def menu_only?
-      self.menu_only
+      self.children.none?
     end
 
+    # Protected: Builts the url_path from ancestry's path
+    #
+    # Updates the url_path of the caller
+    # def url_path
+    #   @url_path ||= "/#{path.collect(&:slug).join('/')}"
+    # end
+
+    def url
+      "#{self.path.select{|p| p.displayable || p.id == self.id}.collect(&:url_map).compact.join('/')}".gsub(/\/+/, '/')
+    end
+
+    def url_map
+      if self.displayable.present?
+        p = PathMapper.new(self.displayable)
+        p.path
+      else
+        self.url_path
+      end
+    end
+
+    def url_slug
+      if self.displayable.present?
+        nil
+      else
+        self.slug
+      end
+    end
 
     protected
-
-    # Protected: Checks if this slug is unique in its scope
-    #
-    # Adds an error if the slug of the caller is not unique
-    def check_slug_uniqueness
-      if self.parent
-        data = self.parent.children.reject{|s| s == self}
-      else
-        data = Contentr::Page.roots.reject{|s| s == self}
-      end
-      errors.add(:slug, "is already taken") if data.map(&:slug).include?(self.slug)
-    end
-
 
     # Protected: Generates a slug from the name if a slug is not yet set
     #
@@ -175,16 +185,32 @@ module Contentr
     # Protected: Builts the url_path from ancestry's path
     #
     # Updates the url_path of the caller
-    def rebuild_path
-      self.update_column(:url_path, "/#{path.collect(&:slug).join('/')}")
+    def path_rebuilding
+      if self.displayable.nil?
+        self.subtree.each do |page|
+          page.rebuild_path!
+        end
+      end
+    end
+
+    def rebuild_path!
+      local_path = self.class.where(id: self.path_ids)
+      new_path = "#{local_path.collect(&:url_slug).compact.join('/')}".gsub(/\/+/, '/')
+      new_path = new_path.prepend('/') unless new_path.start_with?('/')
+      self.update_column(:url_path,  new_path) if self.displayable.nil?
     end
 
     # Protected: Checks if this is a valid node
     #
     # Adding errors if this node is not valid
     def check_nodes
-      errors.add(:base, "Unsupported parent node.") unless accepts_parent?(parent)
-      errors.add(:base, "Unsupported child node.")  if parent.present? and not parent.accepts_child?(self)
+      # errors.add(:base, "Unsupported parent node.") unless accepts_parent?(parent)
+      # errors.add(:base, "Unsupported child node.")  if parent.present? and not parent.accepts_child?(self)
+    end
+
+    def slug_unique_within_siblings
+      cnt = self.siblings.select{|s| s.slug == self.slug && s.id != self.id}.count
+      errors.add(:slug, :must_be_unique) if cnt > 0
     end
 
     # Protected: Checks if this node accepts a child node
