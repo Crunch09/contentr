@@ -5,7 +5,7 @@
         h4.panel-title
           a data-toggle="collapse" data-parent="#contentr-areas-accordion" href="#area-#{area.to_s}"
             = area.to_s
-      div.panel-collapse id="area-#{area.to_s}"
+      div.panel-collapse id="area-#{area.to_s}" class="contentr-area" data-reorder-path="#{contentr_admin_reorder_paragraphs_path('PAGE', 'AREA')}" data-area=area.to_s data-page=page.id
         div.panel-body
           .existing-paragraphs data-area="area-#{area.to_s}"
             - page.paragraphs_for_area(area).each do |paragraph|
@@ -32,7 +32,7 @@ javascript:
   });
 
   $(document).on('click', '.cancel-paragraph-edit-btn', function(){
-    if($(this).data('id') !== undefined){
+    if($(this).data('id') !== null){
       var $paragraph = $('#paragraph_'+ $(this).data('id'));
       $paragraph.show();
     }
@@ -42,7 +42,7 @@ javascript:
 
   $(document).on('ajax:success', 'form.paragraph', function(e, data, status, xhr){
     var paragraphId = $(this).data('id');
-    if(paragraphId !== undefined){
+    if(paragraphId !== null){
       var $existingParagraph = $('#paragraph_'+ paragraphId);
       if($existingParagraph.length == 1){
         $existingParagraph.replaceWith(data);

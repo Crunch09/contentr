@@ -25,4 +25,22 @@ jQuery(function($) {
       }
     });
   });
+
+  $('.contentr-area').sortable({
+    items: '.existing-paragraphs > div.paragraph',
+    handle: '.toolbar .handle',
+    update: function(event, ui) {
+      var ids = $(this).sortable('serialize');
+      var current_page = $(this).attr('data-page');
+      var area_name = $(this).attr('data-area');
+      $.ajax({
+        type: "PATCH",
+        url: $(this).data('reorder-path').replace(/PAGE/, current_page).replace(/AREA/, area_name),
+        data: ids,
+        error: function(msg) {
+          alert("Error: Please try again.");
+        }
+      });
+    }
+  });
 });
