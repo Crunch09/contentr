@@ -33,6 +33,7 @@ module Contentr
     after_save        :path_rebuilding
 
 
+    attr_accessor :in_preview_mode
     # Node checks
     # self.accepted_parent_nodes = [Contentr::Page]
     # self.accepted_child_nodes  = [Contentr::Page]
@@ -126,7 +127,11 @@ module Contentr
     #
     # Returns the matching paragraphs
     def paragraphs_for_area(area_name)
-      self.paragraphs.where(area_name: area_name).order("position asc")
+      paragraphs = self.paragraphs.where(area_name: area_name).order("position asc")
+      if self.in_preview_mode
+        paragraphs = paragraphs.map(&:for_edit)
+      end
+      paragraphs
     end
 
     # Public: Getter for menu_only attribute
@@ -134,6 +139,14 @@ module Contentr
     # Returns true or false
     def menu_only?
       self.children.none?
+    end
+
+    def preview!
+      self.in_preview_mode = true
+    end
+
+    def stable!
+      self.in_preview_mode = false
     end
 
     # Protected: Builts the url_path from ancestry's path

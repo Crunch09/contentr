@@ -27,6 +27,13 @@ module Contentr
           end
       end
 
+      def contentr_link_to_preview_for(page)
+        params = {preview: true}.to_query
+        url = page.url
+        params = url['?'] ? params.prepend('&') : params.prepend('?')
+        link_to 'Vorschau', "#{page.url}#{params}", target: :_blank
+      end
+
     end
   end
 end
