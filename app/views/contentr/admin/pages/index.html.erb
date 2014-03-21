@@ -8,16 +8,16 @@ $(function (){
 <div id="page-manager">
   <div class="toolbar">
     <% if @root_page.present? %>
-      <%= link_to 'Create a new page', new_contentr_admin_page_path(:root => @root_page), :class => 'button header-link' %>
+      <%= link_to 'Create a new page', contentr.new_admin_page_path(:root => @root_page), :class => 'button header-link' %>
     <% else %>
-    <%= link_to 'Create a new site', new_contentr_admin_site_path(), :class => 'button header-link' %>
+    <%= link_to 'Create a new site', contentr.new_admin_site_path, :class => 'button header-link' %>
     <% end %>
     <div class="cur_path">
       Current Path: <%= @page.present? ? @page.url_path : "/" %>
     </div>
     <div>
       <% if @root_page.present? %>
-        <%= link_to(raw('&#8679; Go up'), contentr_admin_pages_path(:root => @root_page.parent), :rel => 'pm-navigate',
+        <%= link_to(raw('&#8679; Go up'), contentr.admin_pages_path(:root => @root_page.parent), :rel => 'pm-navigate',
           class: 'button header-link')
         %>
       <% end %>
@@ -62,12 +62,12 @@ $(function (){
           </td>
           <td>
             <li class="">
-              <%= link_to(raw('<i class="fa fa-edit"></i>'), edit_contentr_admin_page_path(page, :root => @root_page)) %>
+              <%= link_to(raw('<i class="fa fa-edit"></i>'), contentr.edit_admin_page_path(page, :root => @root_page)) %>
             </li>
           </td><td>
             <% unless page.is_a?(Contentr::LinkedPage) %>
               <li class=""><%= link_to(raw('<i class="fa fa-remove"></i>'),
-                contentr_admin_site_path(page, :root => @root_page),
+                contentr.admin_site_path(page, :root => @root_page),
                 :method => :delete,
                 data: {confirm: "Really delete page '#{page.name}'? All subpages will be deleted too."}) %>
               </li>

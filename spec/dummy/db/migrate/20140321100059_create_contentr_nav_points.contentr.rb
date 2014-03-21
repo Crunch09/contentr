@@ -1,4 +1,4 @@
-# This migration comes from contentr_engine (originally 20131)
+# This migration comes from contentr (originally 20131)
 class CreateContentrNavPoints < ActiveRecord::Migration
   def change
     create_table :contentr_nav_points do |t|

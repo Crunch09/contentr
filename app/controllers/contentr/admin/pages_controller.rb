@@ -16,17 +16,23 @@ class Contentr::Admin::PagesController < Contentr::Admin::ApplicationController
 
   def create
     @page = Contentr::ContentPage.new(page_params)
-    if @root_page.present?
-      @page.parent = @root_page
-    else
-      @page.parent = Contentr::Site.default
-    end
     if @page.save
-      flash[:success] = 'Page created.'
-      redirect_to contentr_admin_pages_path(:root => @root_page)
+      redirect_to :back, notice: 'Seite wurde erstellt.'
     else
       render :action => :new
     end
+  end
+
+  def show
+    @page = Contentr::Page.find(params[:id])
+    if @page.is_a?(Contentr::PageWithoutContent)
+      redirect_to contentr.admin_page_path(@page.parent)
+      return
+    end
+    if @page.displayable
+      @parent_of_custom_pages = @page.displayable.parent_of_custom_pages
+    end
+    render action: 'show', layout: 'application'
   end
 
   def edit
@@ -36,18 +42,30 @@ class Contentr::Admin::PagesController < Contentr::Admin::ApplicationController
 
   def update
     @page = Contentr::Page.find(params[:id])
-    if @page.update_attributes(page_params)
+    if @page.update(page_params)
       flash[:success] = 'Page updated.'
-      redirect_to contentr_admin_pages_path(:root => @page.root)
+      redirect_to contentr.admin_pages_path(:root => @page.root)
     else
       render :action => :edit
     end
   end
 
   def destroy
-    page = Contentr::ContentPage.find(params[:id])
+    page = Contentr::Page.find(params[:id])
     page.destroy
-    redirect_to contentr_admin_pages_path(:root => @root_page)
+    redirect_to contentr.admin_pages_path(:root => @root_page)
+  end
+
+  def publish
+    page = Contentr::Page.find(params[:id])
+    page.publish!
+    redirect_to :back, notice: 'Seite wurde veröffentlicht'
+  end
+
+  def hide
+    page = Contentr::Page.find(params[:id])
+    page.hide!
+    redirect_to :back, notice: 'Seite ist jetzt verborgen'
   end
 
   private
@@ -58,7 +76,7 @@ class Contentr::Admin::PagesController < Contentr::Admin::ApplicationController
 
   protected
     def page_params
-      params.require(:page).permit(*Contentr::Page.permitted_attributes)
+      params.require(:contentr_page).permit(:name, :parent_id)#*Contentr::Page.permitted_attributes)
     end
 
 end

@@ -1,10 +1,11 @@
 jQuery(function($) {
   $(document).on('click', ".show_published_version", function(){
     var clicked = $(this);
+    var link = clicked.data('href').replace(/PAGEID/, clicked.data('page')).replace(/PARAGRAPHID/, clicked.data('paragraph')).
+      replace(/CURRENT/, clicked.data('current'));
     $.ajax({
       type: "GET",
-      url: "/contentr/admin/pages/"+ clicked.data('page') +"/paragraphs/"+
-           clicked.data('paragraph')+"/show_version/"+ clicked.data('current'),
+      url: link,
       success: function(msg){
         $('#paragraph_'+ clicked.data('paragraph')+' .actual_content').html(msg);
         if(clicked.data("current") == "0"){

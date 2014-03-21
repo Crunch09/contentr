@@ -27,7 +27,7 @@ class Contentr::Admin::ParagraphsController < Contentr::Admin::ApplicationContro
         render action: 'show', layout: false
       else
         flash[:notice] = 'Paragraph created'
-        redirect_to contentr_admin_pages_path(root: @page.id)
+        redirect_to contentr.admin_pages_path(root: @page.id)
       end
     else
       render :action => :new
@@ -52,7 +52,7 @@ class Contentr::Admin::ParagraphsController < Contentr::Admin::ApplicationContro
         render action: 'show', layout: false
       else
         flash[:notice] = 'Paragraph saved'
-        redirect_to contentr_admin_pages_path(root: @page.id)
+        redirect_to contentr.admin_pages_path(root: @page.id)
       end
     else
       render :action => :edit

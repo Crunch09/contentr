@@ -1,7 +1,6 @@
-# This migration comes from contentr_engine (originally 20122)
-class CreatePages < ActiveRecord::Migration
+class CreateContentrPages < ActiveRecord::Migration
   def self.up
-    create_table :pages do |t|
+    create_table :contentr_pages do |t|
       t.string 'name'
       t.string 'slug'
       t.string 'type'
@@ -16,12 +15,12 @@ class CreatePages < ActiveRecord::Migration
       t.references :displayable, polymorphic: true
       t.timestamps
     end
-    add_index :pages, :published
-    add_index :pages, :hidden
-    add_index :pages, :ancestry
+    add_index :contentr_pages, :published
+    add_index :contentr_pages, :hidden
+    add_index :contentr_pages, :ancestry
   end
 
   def self.down
-    drop_table :pages
+    drop_table :contentr_pages
   end
 end

@@ -1,4 +1,3 @@
-- headline "#{page.name} #{contentr_link_to_preview_for(page)}".html_safe
 .panel-group#contentr-areas-accordion
   - areas.each do |area|
     .panel.panel-default
@@ -6,14 +5,14 @@
         h4.panel-title
           a data-toggle="collapse" data-parent="#contentr-areas-accordion" href="#area-#{area.to_s}"
             = area.to_s
-      div.panel-collapse id="area-#{area.to_s}" class="contentr-area" data-reorder-path="#{contentr_admin_reorder_paragraphs_path('PAGE', 'AREA')}" data-area=area.to_s data-page=page.id
+      div.panel-collapse id="area-#{area.to_s}" class="contentr-area" data-reorder-path="#{contentr.admin_reorder_paragraphs_path('PAGE', 'AREA')}" data-area=area.to_s data-page=page.id
         div.panel-body
           .existing-paragraphs data-area="area-#{area.to_s}"
             - page.paragraphs_for_area(area).each do |paragraph|
               = render 'contentr/admin/paragraphs/paragraph', paragraph: paragraph
           .new-paragraph-buttons
             - Contentr.paragraphs.each do |pc|
-                = link_to pc.title, contentr_admin_new_paragraph_path(page, area, pc.paragraph_class.to_s, site: params[:site]), class: 'btn btn-info paragraph-add-btn', remote: true, data: {area: "area-#{area.to_s}"}
+                = link_to pc.title, contentr.admin_new_paragraph_path(page, area, pc.paragraph_class.to_s, site: params[:site]), class: 'btn btn-info paragraph-add-btn', remote: true, data: {area: "area-#{area.to_s}"}
 
 javascript:
   $('.paragraph-add-btn').on('ajax:success', function(e, data, status, xhr){

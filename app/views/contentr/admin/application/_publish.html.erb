@@ -1,7 +1,7 @@
 <% if Contentr::Paragraph.find(p.id).unpublished_data.empty? || Contentr::Paragraph.find(p.id).data == Contentr::Paragraph.find(p.id).unpublished_data %>
 <a href="#" class="btn btn-mini btn-success disabled" disable="disabled"><%= t('contentr.no_unpublished_changes') %></a>
 <% elsif contentr_publisher? %>
-<%= link_to "#{t('contentr.publish')}", contentr_admin_publish_paragraph_path(:page_id => page.id, :id => p.id), class: "btn btn-mini btn-success", id: "publish-btn-#{p.id}" %>
-<%= link_to raw("<i class='fa fa-trash-o'></i>#{t('contentr.revert')}"), contentr_admin_revert_paragraph_path(:page_id => page.id, :id => p.id), id: "revert-btn-#{p.id}", class: "btn btn-mini", style: "display: none;" %>
-<button data-paragraph="<%= p.id %>" data-current="0" data-page="<%= page.id %>" class="btn btn-mini btn-primary show_published_version"><%= t('contentr.published_version') %></button>
+<%= link_to "#{t('contentr.publish')}", contentr.admin_publish_paragraph_path(:page_id => page.id, :id => p.id), class: "btn btn-mini btn-success", id: "publish-btn-#{p.id}" %>
+<%= link_to raw("<i class='fa fa-trash-o'></i>#{t('contentr.revert')}"), contentr.admin_revert_paragraph_path(:page_id => page.id, :id => p.id), id: "revert-btn-#{p.id}", class: "btn btn-mini", style: "display: none;" %>
+<button data-paragraph="<%= p.id %>" data-current="0" data-page="<%= page.id %>" class="btn btn-mini btn-primary show_published_version" data-href="<%= contentr.admin_show_version_path('PAGEID', 'PARAGRAPHID', 'CURRENT') %>"><%= t('contentr.published_version') %></button>
 <% end %>

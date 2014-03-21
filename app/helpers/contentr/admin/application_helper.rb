@@ -7,7 +7,7 @@ module Contentr
       def simple_form_for_contentr_paragraph(&block)
         simple_form_for(
           'paragraph',
-          :url     => (@paragraph.new_record? ? contentr_admin_paragraphs_path(:page_id => @page.id, :area_name => @area_name, :type => @paragraph.class, :site => params[:site]) : contentr_admin_page_paragraph_path(:page_id => @page, :id => @paragraph, :site => params[:site])),
+          :url     => (@paragraph.new_record? ? contentr.admin_paragraphs_path(:page_id => @page.id, :area_name => @area_name, :type => @paragraph.class, :site => params[:site]) : contentr.admin_page_paragraph_path(:page_id => @page, :id => @paragraph, :site => params[:site])),
           :method  => (@paragraph.new_record? ? :post : :patch),
           :enctype => "multipart/form-data",
           remote: true,
@@ -19,7 +19,7 @@ module Contentr
       def simple_form_for_contentr_file(file, &block)
         simple_form_for(
           'file',
-          :url     => (file.new_record? ? contentr_admin_files_path() : contentr_admin_file_path(file)),
+          :url     => (file.new_record? ? contentr.admin_files_path() : contentr.admin_file_path(file)),
           :method  => (file.new_record? ? :post : :put),
           :enctype => "multipart/form-data",
           :html    => {:class => 'form-horizontal'}) do |f|
@@ -31,7 +31,7 @@ module Contentr
         params = {preview: true}.to_query
         url = page.url
         params = url['?'] ? params.prepend('&') : params.prepend('?')
-        link_to 'Vorschau', "#{page.url}#{params}", target: :_blank
+        "#{page.url}#{params}"
       end
 
     end

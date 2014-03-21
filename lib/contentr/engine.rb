@@ -11,6 +11,7 @@ require 'ancestry'
 module Contentr
 
   class Engine < Rails::Engine
+    isolate_namespace Contentr
 
     initializer 'contentr frontend editing' do |app|
       require 'contentr/frontend_editing'
@@ -20,6 +21,9 @@ module Contentr
     initializer 'contentr.action_controller' do |app|
       ActiveSupport.on_load :action_controller do
         helper Contentr::ApplicationHelper
+        helper Contentr::Admin::ParagraphsHelper
+        helper Contentr::Admin::ApplicationHelper
+        helper Contentr::MenuHelper
       end
     end
 

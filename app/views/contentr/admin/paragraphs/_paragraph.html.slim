@@ -7,9 +7,9 @@ div id="paragraph_#{paragraph.id}" class="paragraph"
         = render partial: "/contentr/admin/application/publish", locals: {p: paragraph, area_name: paragraph.area_name, page: paragraph.page}
       .col-xs-2.col-sm-4.btn_area
         = link_to("<i class='fa fa-edit'></i>".html_safe,
-            edit_contentr_admin_page_paragraph_path(:page_id => paragraph.page, :id => paragraph, :site => paragraph.page.is_a?(Contentr::Site)), :rel => 'contentr-overlay', class: 'btn btn-mini btn-inverse paragraph-edit-btn', remote: true, data: {id: paragraph.id})
+            contentr.edit_admin_page_paragraph_path(:page_id => paragraph.page, :id => paragraph, :site => paragraph.page.is_a?(Contentr::Site)), :rel => 'contentr-overlay', class: 'btn btn-mini btn-inverse paragraph-edit-btn', remote: true, data: {id: paragraph.id})
         = link_to("<i class='fa fa-trash-o'></i>".html_safe,
-              contentr_admin_page_paragraph_path(:page_id => paragraph.page, :id => paragraph, :site => paragraph.page.is_a?(Contentr::Site)),
+              contentr.admin_page_paragraph_path(:page_id => paragraph.page, :id => paragraph, :site => paragraph.page.is_a?(Contentr::Site)),
               :method => :delete,
               class: 'btn btn-mini btn-inverse remove-paragraph-btn',
               data: { confirm: 'Really delete?' })

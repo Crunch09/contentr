@@ -11,11 +11,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140314081205) do
+ActiveRecord::Schema.define(version: 20140321100059) do
 
   create_table "articles", force: true do |t|
     t.string   "title"
     t.text     "body"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "contentr_files", force: true do |t|
+    t.string   "description"
+    t.string   "slug"
+    t.string   "file"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "contentr_image_assets", force: true do |t|
+    t.string   "file"
+    t.string   "file_unpublished"
+    t.string   "type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -33,23 +49,7 @@ ActiveRecord::Schema.define(version: 20140314081205) do
 
   add_index "contentr_nav_points", ["ancestry"], name: "index_contentr_nav_points_on_ancestry"
 
-  create_table "files", force: true do |t|
-    t.string   "description"
-    t.string   "slug"
-    t.string   "file"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "image_assets", force: true do |t|
-    t.string   "file"
-    t.string   "file_unpublished"
-    t.string   "type"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "pages", force: true do |t|
+  create_table "contentr_pages", force: true do |t|
     t.string   "name"
     t.string   "slug"
     t.string   "type"
@@ -67,11 +67,11 @@ ActiveRecord::Schema.define(version: 20140314081205) do
     t.datetime "updated_at"
   end
 
-  add_index "pages", ["ancestry"], name: "index_pages_on_ancestry"
-  add_index "pages", ["hidden"], name: "index_pages_on_hidden"
-  add_index "pages", ["published"], name: "index_pages_on_published"
+  add_index "contentr_pages", ["ancestry"], name: "index_contentr_pages_on_ancestry"
+  add_index "contentr_pages", ["hidden"], name: "index_contentr_pages_on_hidden"
+  add_index "contentr_pages", ["published"], name: "index_contentr_pages_on_published"
 
-  create_table "paragraphs", force: true do |t|
+  create_table "contentr_paragraphs", force: true do |t|
     t.string   "area_name"
     t.integer  "position"
     t.string   "type"
