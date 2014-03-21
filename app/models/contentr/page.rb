@@ -177,6 +177,19 @@ module Contentr
       end
     end
 
+    def areas
+      Contentr.default_areas
+    end
+
+    def publish!
+      self.paragraphs.each(&:publish!)
+      self.update(published: true)
+    end
+
+    def hide!
+      self.update(published: false)
+    end
+
     protected
 
     # Protected: Generates a slug from the name if a slug is not yet set
@@ -207,7 +220,7 @@ module Contentr
     end
 
     def rebuild_path!
-      local_path = self.class.where(id: self.path_ids)
+      local_path = self.path.reject{|p| p.is_a?(Contentr::LinkedPage)}
       new_path = "#{local_path.collect(&:url_slug).compact.join('/')}".gsub(/\/+/, '/')
       new_path = new_path.prepend('/') unless new_path.start_with?('/')
       self.update_column(:url_path,  new_path) if self.displayable.nil?
@@ -248,6 +261,7 @@ module Contentr
       return self.accepted_parent_nodes.any?{ |node_class| node_class.kind_of?(Class) && parent.is_a?(node_class) }
 
     end
+
 
   end
 end

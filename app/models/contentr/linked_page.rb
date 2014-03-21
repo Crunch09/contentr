@@ -40,8 +40,5 @@ module Contentr
       return page if page.present?
     end
 
-    def areas
-      Contentr.default_areas
-    end
   end
 end

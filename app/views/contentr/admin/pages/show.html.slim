@@ -1,0 +1,26 @@
+- headline @page.name
+- bsat_page_actions do |actions|
+  - actions.add 'Vorschau', contentr_link_to_preview_for(@page), link_to_options: { target: '_blank' }
+  - if @page.published?
+    - actions.add 'Seite verbergen', contentr.hide_admin_page_path(@page), link_to_options: { class: 'btn btn-warning'}
+  - else
+    - actions.add 'Seite veröffentlichen', contentr.publish_admin_page_path(@page), link_to_options: { class: 'btn btn-primary'}
+- bsat_sidebar_nav do |navbar|
+  - if @page.displayable
+    - if @parent_of_custom_pages.children.empty?
+      - navbar.divider
+    - @parent_of_custom_pages.children.each do |child|
+      - navbar.link child.name, contentr.admin_page_path(child)
+  - else
+    - navbar.back(t('back'), contentr.admin_page_path(@page.parent))
+    - @page.siblings.each do |sibling|
+        - navbar.link(sibling.name, contentr.admin_page_path(sibling), active: (sibling == @page))
+- if @parent_of_custom_pages
+  = simple_form_for Contentr::Page.new(parent: @parent_of_custom_pages),
+      url: contentr.admin_pages_path, html: {class: 'form-inline'} do |f|
+      .form-group
+        = f.input :parent_id, as: :hidden
+        = f.input :name, label_html: {class: 'sr-only'},placeholder: 'Name'
+      = f.button :submit, 'Unterseite erstellen', class: 'btn btn-info dontmove'
+= render 'contentr/admin/pages/areas', areas: @page.areas, page: @page
+
