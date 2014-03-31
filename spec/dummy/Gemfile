@@ -9,10 +9,13 @@ gem 'sqlite3'
 
 gem 'contentr', path: "../../../contentr"
 
-gem 'tabulatr2', github: 'provideal/tabulatr2'
+gem 'tabulatr2', path: '~/Code/tabulatr2'
+gem 'ancestry', github: 'stefankroes/ancestry'
+gem 'bsat', github: 'renspr/bsat'
+
 # Gems used only for assets and not required
 # in production environments by default.
-gem 'sass-rails',   '~> 4.0.0'
+gem 'sass-rails',   '~> 4.0.2'
 gem 'coffee-rails', '~> 4.0.0'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes

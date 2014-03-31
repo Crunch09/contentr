@@ -9,6 +9,8 @@ gem 'coffee-rails',             '~> 4.0.0'
 gem 'uglifier',                 '>= 1.3.0'
 
 gem 'tabulatr2', github: 'provideal/tabulatr2'
+gem 'ancestry', github: 'stefankroes/ancestry'
+gem 'bsat', github: 'renspr/bsat'
 group :test do
   gem 'sqlite3'
 end
