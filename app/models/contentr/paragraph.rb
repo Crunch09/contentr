@@ -10,9 +10,10 @@ module Contentr
     class_attribute :form_fields
 
     belongs_to :page, class_name: 'Contentr::Page'
+    belongs_to :content_block, class_name: 'Contentr::ContentBlock'
 
     # Validations
-    validates_presence_of :area_name
+    validates :area_name, presence: true, unless: ->{self.content_block.present?}
 
     after_find :save_old_data
 

@@ -8,10 +8,10 @@ class CreateContentrPages < ActiveRecord::Migration
       t.boolean 'published', default: false
       t.boolean 'hidden', default: false
       t.string 'layout', default: "application"
-      t.string 'template', default: "default"
       t.string 'linked_to'
       t.string 'ancestry'
       t.string 'url_path'
+      t.references :page_type
       t.references :displayable, polymorphic: true
       t.timestamps
     end

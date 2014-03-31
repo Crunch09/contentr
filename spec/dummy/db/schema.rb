@@ -11,11 +11,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140321100059) do
+ActiveRecord::Schema.define(version: 20140328111521) do
 
   create_table "articles", force: true do |t|
     t.string   "title"
     t.text     "body"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "contentr_content_blocks", force: true do |t|
+    t.string   "name"
+    t.string   "language"
+    t.string   "partial"
+    t.string   "visible",    default: "t"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "contentr_content_blocks_pages", force: true do |t|
+    t.integer  "content_block_id"
+    t.integer  "page_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -49,6 +65,21 @@ ActiveRecord::Schema.define(version: 20140321100059) do
 
   add_index "contentr_nav_points", ["ancestry"], name: "index_contentr_nav_points_on_ancestry"
 
+  create_table "contentr_page_types", force: true do |t|
+    t.string  "name"
+    t.integer "header_offset",             default: 0
+    t.integer "col1_offset",               default: 0
+    t.integer "col2_offset",               default: 0
+    t.integer "col3_offset",               default: 0
+    t.integer "col1_width"
+    t.integer "col2_width"
+    t.integer "col3_width"
+    t.text    "header_allowed_paragraphs", default: "*"
+    t.text    "col1_allowed_paragraphs",   default: "*"
+    t.text    "col2_allowed_paragraphs",   default: "*"
+    t.text    "col3_allowed_paragraphs",   default: "*"
+  end
+
   create_table "contentr_pages", force: true do |t|
     t.string   "name"
     t.string   "slug"
@@ -57,10 +88,10 @@ ActiveRecord::Schema.define(version: 20140321100059) do
     t.boolean  "published",        default: false
     t.boolean  "hidden",           default: false
     t.string   "layout",           default: "application"
-    t.string   "template",         default: "default"
     t.string   "linked_to"
     t.string   "ancestry"
     t.string   "url_path"
+    t.integer  "page_type_id"
     t.integer  "displayable_id"
     t.string   "displayable_type"
     t.datetime "created_at"
@@ -73,11 +104,12 @@ ActiveRecord::Schema.define(version: 20140321100059) do
 
   create_table "contentr_paragraphs", force: true do |t|
     t.string   "area_name"
-    t.integer  "position"
+    t.integer  "position",         default: 0
     t.string   "type"
     t.text     "data"
     t.text     "unpublished_data"
     t.integer  "page_id"
+    t.integer  "content_block_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

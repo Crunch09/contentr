@@ -5,7 +5,9 @@ module Contentr
 
     # Relations
     has_many :paragraphs, class_name: 'Contentr::Paragraph'
+    has_and_belongs_to_many :content_blocks, class_name: 'Contentr::ContentBlock'
     belongs_to :displayable, polymorphic: true
+    belongs_to :page_type, class_name: 'Contentr::PageType'
 
     acts_as_tree
 
