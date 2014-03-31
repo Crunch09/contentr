@@ -1,7 +1,7 @@
 jQuery(function($) {
   $(document).on('click', ".show_published_version", function(){
     var clicked = $(this);
-    var link = clicked.data('href').replace(/PAGEID/, clicked.data('page')).replace(/PARAGRAPHID/, clicked.data('paragraph')).
+    var link = clicked.data('href').replace(/PARAGRAPHID/, clicked.data('paragraph')).
       replace(/CURRENT/, clicked.data('current'));
     $.ajax({
       type: "GET",
@@ -43,5 +43,44 @@ jQuery(function($) {
         }
       });
     }
+  });
+
+  $('.paragraph-add-btn').on('ajax:success', function(e, data, status, xhr){
+    $('.existing-paragraphs[data-area="'+ $(this).data('area') +'"]').append(data);
+    if($(data).find('.wysihtml').length > 0){
+      $('.existing-paragraphs .wysihtml').wysihtml5({medium: true})
+    }
+  });
+
+  $('.paragraph-edit-btn').on('ajax:success', function(e, data, status, xhr){
+    var $paragraph = $('#paragraph_'+ $(this).data('id'));
+    $paragraph.hide();
+    $paragraph.after(data);
+    if($(data).find('.wysihtml').length > 0){
+      $('.existing-paragraphs .wysihtml').wysihtml5({medium: true})
+    }
+  });
+
+  $(document).on('click', '.cancel-paragraph-edit-btn', function(){
+    if($(this).data('id') !== null){
+      var $paragraph = $('#paragraph_'+ $(this).data('id'));
+      $paragraph.show();
+    }
+    $(this).closest('form').remove();
+    return false;
+  });
+
+  $(document).on('ajax:success', 'form.paragraph', function(e, data, status, xhr){
+    var paragraphId = $(this).data('id');
+    if(paragraphId !== null){
+      var $existingParagraph = $('#paragraph_'+ paragraphId);
+      if($existingParagraph.length == 1){
+        $existingParagraph.replaceWith(data);
+      }
+    }else{
+      $('.existing-paragraphs[data-area="'+ $(this).closest('[data-area]').data('area') +'"]').append(data);
+    }
+    $(this).remove();
+    return false;
   });
 });

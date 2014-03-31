@@ -62,4 +62,31 @@ describe Contentr::Admin::PagesController do
     end
   end
 
+  describe '#show' do
+    it 'displays the page\'s areas' do
+      Contentr.default_areas = [:main]
+      page = create(:contentpage, name: 'bar', slug: 'bar')
+      visit contentr.admin_page_path(page)
+      within('.panel-title') do
+        page.areas.each do |area|
+          expect(page).to have_content(area)
+        end
+      end
+    end
+
+    it 'is able to add paragraphs to areas', js: true do
+      Contentr.default_areas = [:main]
+      contentr_page = create(:contentpage, name: 'bar', slug: 'bar')
+      visit contentr.admin_page_path(contentr_page)
+      within('.new-paragraph-buttons') do
+        click_link 'HTML'
+      end
+      within('.existing-paragraphs form') do
+        fill_in 'Body', with: 'hello world!'
+        click_button 'Save Paragraph'
+      end
+      expect(page.find(".paragraph")).to have_content('hello world!')
+    end
+  end
+
 end

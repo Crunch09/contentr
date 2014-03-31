@@ -1,0 +1,7 @@
+= simple_form_for(@content_block,
+    url:    (@content_block.new_record? ? contentr.admin_content_blocks_path : contentr.admin_content_block_path),
+    method: (@content_block.new_record? ? :post : :patch)) do |f|
+  = f.input :name
+  = f.input :language
+  = f.input :partial, collection: Contentr::ContentBlock.available_partials
+  = f.button :submit

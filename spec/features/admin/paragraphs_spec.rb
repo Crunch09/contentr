@@ -6,22 +6,22 @@ describe Contentr::Admin::ParagraphsController do
   let!(:contentpage) { FactoryGirl.create(:contentpage_with_paragraphs) }
 
   describe "#edit" do
-    before { visit("/contentr/admin/pages/#{contentpage.id}/paragraphs/#{contentpage.paragraphs.first.id}/edit")}
+    before { visit(contentr.edit_admin_paragraph_path(contentpage.paragraphs.first))}
 
     context "up-to-date" do
 
       it "has an up-to-date button" do
-        page.has_content?("No unpublished changes")
+        expect(page).to have_content('No unpublished changes')
       end
 
       it "has no revert button" do
-        page.should_not have_button("Revert")
+        expect(page).to_not have_button("Revert")
       end
 
       it "updates its body" do
         fill_in("paragraph_body", with: "Foobar")
         click_button("Save Paragraph")
-        visit("/contentr/admin/pages/#{contentpage.id}/paragraphs/#{contentpage.paragraphs.first.id}/edit")
+        visit(contentr.edit_admin_paragraph_path(contentpage.paragraphs.first))
         page.find(:css, "textarea#paragraph_body").value.should eql "Foobar"
       end
     end
@@ -29,7 +29,7 @@ describe Contentr::Admin::ParagraphsController do
     context "unpublished changes" do
 
       it "has a publish button" do
-        page.has_content?("Publish!")
+        expect(page).to have_content('Publish!')
       end
     end
   end
@@ -37,11 +37,11 @@ describe Contentr::Admin::ParagraphsController do
   describe "#publish" do
 
     it "resets the publish button if i click on it" do
-      pending 'needs polishing'
+      # pending 'needs polishing'
       @para = contentpage.paragraphs.first
       @para.body = "hell yeah"
       @para.save!
-      visit("/contentr/admin/pages/#{@para.page_id}/paragraphs/#{@para.id}/edit")
+      visit(contentr.edit_admin_paragraph_path(@para))
       click_link("Publish!")
       page.has_content?("No unpublished changes")
     end

@@ -44,9 +44,9 @@ function closeIFrame(){
             </div>
             <div class='col-xs-2 btn_area'>
               <%= link_to("<i class='fa fa-edit'></i>".html_safe,
-                    contentr.edit_admin_page_paragraph_path(:page_id => page, :id => p, :site => page.is_a?(Contentr::Site)), :rel => 'contentr-overlay', class: 'btn btn-mini btn-inverse') %>
+                    contentr.edit_admin_paragraph_path(p), :rel => 'contentr-overlay', class: 'btn btn-mini btn-inverse') %>
               <%= link_to("<i class='fa fa-trash-o'></i>".html_safe,
-                    contentr.admin_page_paragraph_path(:page_id => page, :id => p, :site => page.is_a?(Contentr::Site)),
+                    contentr.admin_paragraph_path(p),
                     :method => :delete,
                     class: 'btn btn-mini btn-inverse remove-paragraph-btn',
                     data: { confirm: 'Really delete?' }) %>

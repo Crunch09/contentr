@@ -1,7 +1,7 @@
-<%= simple_form_for 'page',
-    url:    (@page.new_record? ? contentr_admin_pages_path(root: @root_page) :
-                                 contentr_admin_page_path(root: @root_page)),
-    method: (@page.new_record? ? :post : :put),
+<%= simple_form_for @page,
+    url:    (@page.new_record? ? contentr.admin_pages_path(root: @root_page) :
+                                 contentr.admin_page_path(root: @root_page)),
+    method: (@page.new_record? ? :post : :patch),
     html:   {class: 'form-horizontal'} do |f| %>
 
     <%= f.input :hidden,    as: :boolean %>
@@ -10,11 +10,10 @@
     <%= f.input :slug, required: false %>
     <% unless @page.is_a?(Contentr::Site) %>
         <%= f.input :linked_to, required: true if @page.is_a?(Contentr::LinkedPage) %>
-        <%= f.input :template if @page.is_a?(Contentr::ContentPage) %>
         <%= f.input :layout if @page.is_a?(Contentr::ContentPage) %>
     <% end %>
     <%#= f.input :linked_to, :required => false %>
-
-    <%= f.submit %>
-    <%= link_to 'Cancel', contentr_admin_pages_path %>
+    <%= f.association :page_type %>
+    <%= f.button :submit %>
+    <%= link_to 'Cancel', contentr.admin_pages_path %>
 <% end %>

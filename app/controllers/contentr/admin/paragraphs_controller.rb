@@ -26,8 +26,7 @@ class Contentr::Admin::ParagraphsController < Contentr::Admin::ApplicationContro
         @paragraph = @paragraph.for_edit
         render action: 'show', layout: false
       else
-        flash[:notice] = 'Paragraph created'
-        redirect_to contentr.admin_pages_path(root: @page.id)
+        redirect_to contentr.admin_pages_path(root: @page.id), notice: 'Paragraph created'
       end
     else
       render :action => :new
@@ -35,13 +34,13 @@ class Contentr::Admin::ParagraphsController < Contentr::Admin::ApplicationContro
   end
 
   def edit
-    @paragraph = @page_or_site.paragraphs.find(params[:id])
+    @paragraph = Contentr::Paragraph.find_by(id: params[:id])
     @paragraph.for_edit
     render action: 'edit', layout: false
   end
 
   def update
-    @paragraph = @page_or_site.paragraphs.select { |p| p.id.to_s == params[:id] }.first
+    @paragraph = Contentr::Paragraph.unscoped.find(params[:id])
     if params[:paragraph].has_key?("remove_image")
       @paragraph.image_asset_wrapper_for(params[:paragraph]["remove_image"]).remove_file!(@paragraph)
       params[:paragraph].delete("remove_image")
@@ -51,8 +50,7 @@ class Contentr::Admin::ParagraphsController < Contentr::Admin::ApplicationContro
         @paragraph = @paragraph.for_edit
         render action: 'show', layout: false
       else
-        flash[:notice] = 'Paragraph saved'
-        redirect_to contentr.admin_pages_path(root: @page.id)
+        redirect_to contentr.admin_pages_path, notice: 'Paragraph saved'
       end
     else
       render :action => :edit
@@ -66,30 +64,27 @@ class Contentr::Admin::ParagraphsController < Contentr::Admin::ApplicationContro
   end
 
   def publish
-    @paragraph = @page_or_site.paragraphs.find(params[:id])
+    @paragraph = Contentr::Paragraph.find_by(id: params[:id])
     @paragraph.publish!
-    flash[:notice] = "Published this paragraph"
-    redirect_to :back
+    redirect_to(:back, notice: 'Published this paragraph')
   end
 
   def revert
-    @paragraph = @page_or_site.paragraphs.find(params[:id])
+    @paragraph = Contentr::Paragraph.find_by(id: params[:id])
     @paragraph.revert!
-    flash[:notice] = "Reverted this paragraph"
-    redirect_to :back
+    redirect_to(:back, notice: 'Reverted this paragraph')
   end
 
   def show_version
-    @paragraph = @page_or_site.paragraphs.find(params[:id])
+    @paragraph = Contentr::Paragraph.find_by(id: params[:id])
     current = params[:current] == "1" ? true : false
     render text: view_context.display_paragraph(@paragraph, current)
   end
 
   def destroy
-    paragraph = @page_or_site.paragraphs.find(params[:id])
+    paragraph = Contentr::Paragraph.find_by(id: params[:id])
     paragraph.destroy
-    flash[:error] = "Paragraph was destroyed"
-    redirect_to :back
+    redirect_to :back, notice: 'Paragraph was destroyed'
   end
 
   def reorder
@@ -110,16 +105,16 @@ class Contentr::Admin::ParagraphsController < Contentr::Admin::ApplicationContro
   def find_page_or_site
     if (params[:site] == 'true')
       @page_or_site = Contentr::Site.default
-      @page = Contentr::Page.find(params[:page_id])
+      @page = Contentr::Page.find_by(id: params[:page_id])
     else
-      @page_or_site = Contentr::Page.find(params[:page_id])
+      @page_or_site = Contentr::Page.find_by(id: params[:page_id])
       @page = @page_or_site
     end
   end
 
   protected
     def paragraph_params
-      type =  params['type'] || @page_or_site.paragraphs.select { |p| p.id.to_s == params[:id] }.first.class.name
+      type =  params['type'] || Contentr::Paragraph.unscoped.find(params[:id]).class.name
 
       params.require(:paragraph).permit(*type.constantize.permitted_attributes)
     end
