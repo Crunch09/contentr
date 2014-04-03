@@ -27,6 +27,15 @@ class Contentr::Admin::ContentBlock::ParagraphsController < Contentr::Admin::App
     end
   end
 
+  def index
+    @content_block = Contentr::ContentBlock.find(params[:content_block_id])
+    if @content_block.partial.present?
+      redirect_to :back, 'Paragraphen können nur benutzt werden, wenn kein Partial gesetzt ist'
+    else
+      @paragraphs = @content_block.paragraphs
+    end
+  end
+
   def reorder
     paragraphs_ids = params[:paragraph]
     paragraphs = Contentr::ContentBlock.find(params[:content_block_id]).paragraphs.sort { |x,y| paragraphs_ids.index(x.id.to_s) <=> paragraphs_ids.index(y.id.to_s) }

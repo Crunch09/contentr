@@ -2,7 +2,7 @@ module Contentr
   class ContentBlock < ActiveRecord::Base
     has_and_belongs_to_many :pages, class_name: 'Contentr::Page'
     has_many :paragraphs, dependent: :destroy, before_add: :set_actual_position,
-             inverse_of: :content_block
+             inverse_of: :content_block, class_name: 'Contentr::Paragraph'
 
     validates :language, presence: true
     validates :name, presence: true
@@ -34,8 +34,8 @@ module Contentr
     private
 
     def partial_xor_paragraphs
-      if [partial, paragraphs].compact.select(&:present?).count != 1
-        errors.add(:base, :partial_and_paragraphs_are_mutual_exclusive)
+      if [partial, paragraphs].compact.select(&:present?).count > 1
+        errors.add(:partial, :partial_and_paragraphs_are_mutual_exclusive)
       end
     end
   end

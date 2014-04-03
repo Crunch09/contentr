@@ -16,7 +16,7 @@ Contentr::Engine.routes.draw do
     resources :nav_points, only: [:index]
     resources :page_types, only: [:new, :create, :index, :edit, :update]
     resources :content_blocks, only: [:new, :create, :edit, :update] do
-      resources :paragraphs, only: [:new, :create], controller: 'content_block/paragraphs' do
+      resources :paragraphs, only: [:new, :create, :index], controller: 'content_block/paragraphs' do
         collection do
           patch 'reorder' => 'content_block/paragraphs#reorder'
         end

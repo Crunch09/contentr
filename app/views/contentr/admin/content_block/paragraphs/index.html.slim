@@ -1,0 +1,11 @@
+.contentr-area#area-main data-reorder-path="#{contentr.reorder_admin_content_block_paragraphs_path(@content_block)}"
+  .existing-paragraphs data-area='area-main'
+    = render 'contentr/admin/paragraphs', existing_paragraphs: @content_block.paragraphs,
+        compilation: @content_block
+.new-paragraph-buttons
+  - Contentr.paragraphs.each do |pc|
+      = link_to pc.title,
+          contentr.new_admin_content_block_paragraph_path(@content_block.id, type: pc.paragraph_class.to_s),
+          class: 'btn btn-info paragraph-add-btn',
+          remote: true,
+          data: {area: 'area-main'}
