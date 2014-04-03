@@ -3,5 +3,5 @@
     method: (@content_block.new_record? ? :post : :patch)) do |f|
   = f.input :name
   = f.input :language
-  = f.input :partial, collection: Contentr::ContentBlock.available_partials
+  = f.input :partial, collection: Contentr::ContentBlock.available_partials, include_blank: 'Paragraphen nutzen'
   = f.button :submit
