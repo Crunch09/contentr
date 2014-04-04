@@ -11,11 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140328111521) do
+ActiveRecord::Schema.define(version: 20140403093530) do
 
   create_table "articles", force: true do |t|
     t.string   "title"
     t.text     "body"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "contentr_content_block_usages", force: true do |t|
+    t.integer  "content_block_id"
+    t.integer  "page_id"
+    t.string   "area_name"
+    t.integer  "position",         default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -25,13 +34,6 @@ ActiveRecord::Schema.define(version: 20140328111521) do
     t.string   "language"
     t.string   "partial"
     t.string   "visible",    default: "t"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "contentr_content_blocks_pages", force: true do |t|
-    t.integer  "content_block_id"
-    t.integer  "page_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -53,12 +55,13 @@ ActiveRecord::Schema.define(version: 20140328111521) do
   end
 
   create_table "contentr_nav_points", force: true do |t|
-    t.integer  "displayable_id"
-    t.string   "displayable_type"
+    t.integer  "page_id"
     t.integer  "site_id"
     t.string   "title"
     t.string   "ancestry"
-    t.integer  "position",         default: 0
+    t.string   "url"
+    t.integer  "parent_page_id"
+    t.integer  "position",       default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -22,8 +22,8 @@ describe "pages" do
   # end
 
   it 'displays the content' do
-    site = build(:site, slug: 'en')
-    a = Article.create!(title: 'wicked product', body: 'this article is awesome!')
+    site = create(:site, slug: 'en')
+    a = create(:article, title: 'wicked product', body: 'this article is awesome!')
     content_page = a.sub_pages.create(name: 'info')
     paragraph = create(:paragraph, page: content_page, body: 'hello world!').publish!
     visit "/en/articles/#{a.id}/seiten/info"

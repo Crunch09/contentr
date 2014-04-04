@@ -12,3 +12,7 @@ en:
           attributes:
             slug:
               must_be_unique: must be unique
+        contentr/content_block:
+          attributes:
+            partial:
+              partial_and_paragraphs_are_mutual_exclusive: Partial and paragraphs are mutual exclusive

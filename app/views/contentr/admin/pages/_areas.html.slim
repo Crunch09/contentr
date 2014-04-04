@@ -9,9 +9,11 @@
         div.panel-body
           .existing-paragraphs data-area="area-#{area.to_s}"
             = render 'contentr/admin/paragraphs', existing_paragraphs: page.paragraphs_for_area(area)
+            - Contentr::ContentBlockUsage.where(page: page, area_name: area).order('position asc').each do |cbu|
+              = render 'contentr/content_blocks/content_block', content_block: cbu.content_block
           .new-paragraph-buttons
             - Contentr.paragraphs.each do |pc|
                 = link_to pc.title, contentr.admin_new_paragraph_path(page, area, pc.paragraph_class.to_s, site: params[:site]), class: 'btn btn-info paragraph-add-btn', remote: true, data: {area: "area-#{area.to_s}"}
-
-javascript:
-
+            = select_tag "contentblock", options_from_collection_for_select(Contentr::ContentBlock.all, "id", "name"),
+                include_blank: true,
+                data: {href: contentr.admin_content_block_usages_path}

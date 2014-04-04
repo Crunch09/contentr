@@ -1,84 +1,20 @@
 require 'spec_helper'
 
 describe Contentr::Admin::PagesController do
-  let!(:site) { FactoryGirl.create(:site, slug: "foobar") }
-  let!(:contentpage) { FactoryGirl.create(:contentpage_with_paragraphs) }
-
-  describe "#index" do
-    before { visit "/contentr/admin/pages" }
-
-    it "has an index path" do
-      current_path.should eql contentr.admin_pages_path
-    end
-
-    it "has a list of all root pages" do
-      page.find(:css, 'table#pages_table').should_not be_nil
-    end
-
-    it "has one site in this list" do
-      page.all(:css, 'table#pages_table tbody tr').count.should be(1)
-    end
-
-    it "has a create new site link" do
-      page.should have_link "Create a new site"
-    end
-
-    it "has a link to edit the site" do
-      page.should have_selector("i.fa.fa-edit")
-    end
-
-    it "has a link to delete the page" do
-      page.should have_selector("i.fa.fa-remove")
-    end
-
-    it "lists the current path" do
-      page.should have_content("Current Path: /")
-    end
-  end
-
-  describe "#index" do
-    before { visit contentr.admin_pages_path(root: contentpage.id)}
-
-    it "shows the paragraphs of the page" do
-      pending 'old code'
-      page.all(:css, '.paragraph').count.should be(2)
-    end
-
-    it "deletes a paragraph when i click on delete" do
-      pending 'old code'
-      within("#paragraph_1") do
-        page.find("a.remove-paragraph-btn").click
-      end
-      expect(contentpage.paragraphs.count).to be 1
-    end
-
-    it "shows the unpublished version of a paragraph if there is one" do
-      pending 'old code'
-      para = Contentr::Paragraph.find(contentpage.paragraphs.first.id)
-      para.body = "hell yeah!"
-      para.save!
-      visit(contentr.admin_pages_path(root: contentpage.id))
-      expect(page).to have_content("hell yeah!")
-    end
-  end
 
   describe '#show' do
     it 'displays the page\'s areas' do
-      Contentr.default_areas = [:main]
-      page = create(:contentpage, name: 'bar', slug: 'bar')
-      visit contentr.admin_page_path(page)
-      within('.panel-title') do
-        page.areas.each do |area|
-          expect(page).to have_content(area)
-        end
+      contentpage_two = create(:contentpage, name: 'bar', slug: 'bar')
+      visit contentr.admin_page_path(contentpage_two)
+      contentpage_two.areas.each do |area|
+        expect(page.all('.panel-title')).to have_content(area)
       end
     end
 
     it 'is able to add paragraphs to areas', js: true do
-      Contentr.default_areas = [:main]
       contentr_page = create(:contentpage, name: 'bar', slug: 'bar')
       visit contentr.admin_page_path(contentr_page)
-      within('.new-paragraph-buttons') do
+      within('#area-body .new-paragraph-buttons') do
         click_link 'HTML'
       end
       within('.existing-paragraphs form') do
@@ -86,6 +22,67 @@ describe Contentr::Admin::PagesController do
         click_button 'Save Paragraph'
       end
       expect(page.find(".paragraph")).to have_content('hello world!')
+    end
+
+    it "resets the publish button if i click on it" do
+      contentpage = create(:contentpage_with_paragraphs)
+      @para = contentpage.paragraphs.first
+      @para.body = "hell yeah"
+      @para.save!
+      visit(contentr.admin_page_path(contentpage))
+      expect(page).to_not have_content('No Unpublished Changes')
+      within("#paragraph_#{@para.id}") do
+        click_link("Publish!")
+      end
+      expect(page).to have_content("No Unpublished Changes")
+    end
+
+
+    it "shows the paragraphs of the page" do
+      contentpage = create(:contentpage_with_paragraphs)
+      visit(contentr.admin_page_path(contentpage))
+      expect(page.all(:css, '.existing-paragraphs').count).to be(2)
+    end
+
+    it "deletes a paragraph when i click on delete" do
+      contentpage = create(:contentpage_with_paragraphs)
+      expect(contentpage.paragraphs.count).to be 2
+      visit(contentr.admin_page_path(contentpage))
+      within("#paragraph_1") do
+        page.find("a.remove-paragraph-btn").click
+      end
+      expect(contentpage.paragraphs.count).to be 1
+    end
+
+    it "shows the unpublished version of a paragraph if there is one" do
+      contentpage = create(:contentpage_with_paragraphs)
+      para = contentpage.paragraphs.first
+      para.body = "hell yeah!"
+      para.save!
+      visit(contentr.admin_page_path(contentpage))
+      expect(page).to have_content("hell yeah!")
+    end
+
+    it 'lets the user add content blocks', js: true do
+      create(:site)
+      contentpage = create(:contentpage_with_paragraphs)
+      article = create(:article, title: 'My new article')
+      content_block = create(:content_block, name: 'Artikel anzeigen',
+        partial: '_article')
+      visit(contentr.admin_page_path(contentpage))
+      expect(page.all('.existing-paragraphs')).not_to have_content('Artikel anzeigen')
+      within('#area-body') do
+        select 'Artikel anzeigen', from: 'contentblock'
+      end
+      expect(page.find('.existing-paragraphs[data-area="area-body"]')).to have_content(article.title)
+    end
+
+    it 'loads existing content blocks' do
+      create(:site)
+      article = create(:article)
+      contentpage = create(:contentpage_with_content_block)
+      visit(contentr.admin_page_path(contentpage))
+      expect(page.find('.existing-paragraphs[data-area="area-body"]')).to have_content(article.title)
     end
   end
 

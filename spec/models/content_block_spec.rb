@@ -42,10 +42,10 @@ describe Contentr::ContentBlock do
       content_block.paragraphs << paragraph
       expect(content_block).to_not be_valid
     end
-    it 'is not valid when it has neither partial or paragraphs' do
+    it 'is valid when it has neither partial or paragraphs' do
       content_block = build(:content_block)
       content_block.partial = ''
-      expect(content_block).to_not be_valid
+      expect(content_block).to be_valid
     end
     it 'is valid when it has either partial or paragraphs' do
       content_block = build(:content_block)

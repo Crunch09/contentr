@@ -83,4 +83,24 @@ jQuery(function($) {
     $(this).remove();
     return false;
   });
+
+  $(document).on('change', '.new-paragraph-buttons #contentblock', function(){
+    if($(this).val() === undefined){ return; }
+    var $area = $(this).closest('.contentr-area');
+    $.ajax({
+      type: 'POST',
+      url: $(this).data('href'),
+      data: {
+        content_block_usage: {
+          content_block_id: $(this).val(),
+          page_id: $area.data('page'),
+          area_name: $area.data('area')
+        }
+      },
+      success: function(data){
+        $('.existing-paragraphs[data-area="area-'+ $area.data('area') +'"]').append(data);
+      }
+    });
+    return false;
+  });
 });

@@ -5,9 +5,11 @@ module Contentr
 
     # Relations
     has_many :paragraphs, class_name: 'Contentr::Paragraph'
-    has_and_belongs_to_many :content_blocks, class_name: 'Contentr::ContentBlock'
+    has_many :content_block_usages, class_name: 'Contentr::ContentBlockUsage'
+    has_many :content_blocks, through: :content_block_usages, class_name: 'Contentr::ContentBlock'
     belongs_to :displayable, polymorphic: true
     belongs_to :page_type, class_name: 'Contentr::PageType'
+    has_many :sub_nav_items, class_name: 'Contentr::NavPoint', foreign_key: :parent_page_id
 
     acts_as_tree
 
@@ -180,7 +182,11 @@ module Contentr
     end
 
     def areas
-      Contentr.default_areas
+      if self.displayable.present?
+        Contentr.generated_page.areas
+      else
+        Contentr.default_areas
+      end
     end
 
     def publish!

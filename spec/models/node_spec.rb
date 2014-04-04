@@ -44,7 +44,8 @@ describe Contentr::Page do
   end
 
   it 'has a generated path' do
-    page1 = Contentr::Page.create!(:name => 'Page 1', :slug => 'page1').reload
+    site = create(:site)
+    page1 = Contentr::Page.create!(name: 'Page 1', slug: 'page1', parent: site).reload
     page2 = Contentr::Page.create!(:name => 'Page 2', :slug => 'page2', :parent => page1).reload
     page3 = Contentr::Page.create!(:name => 'Page 3', :slug => 'page3', :parent => page2).reload
     page1.url_path.should eql '/page1'
@@ -59,7 +60,8 @@ describe Contentr::Page do
   end
 
   it 'one can find a node by path' do
-    page1 = Contentr::Page.create!(:name => 'Page 1', :slug => 'page1')
+    site = create(:site)
+    page1 = Contentr::Page.create!(name: 'Page 1', slug: 'page1', parent: site)
     page2 = Contentr::Page.create!(:name => 'Page 2', :slug => 'page2', :parent => page1)
     page3 = Contentr::Page.create!(:name => 'Page 3', :slug => 'page3', :parent => page2)
     expect(Contentr::Page.find_by_path('/page1')).to eq page1

@@ -1,6 +1,7 @@
 module Contentr
   class ContentBlock < ActiveRecord::Base
-    has_and_belongs_to_many :pages, class_name: 'Contentr::Page'
+    has_many :content_block_usages, class_name: 'Contentr::ContentBlockUsage'
+    has_many :pages, class_name: 'Contentr::Page', through: :content_block_usages
     has_many :paragraphs, dependent: :destroy, before_add: :set_actual_position,
              inverse_of: :content_block, class_name: 'Contentr::Paragraph'
 
