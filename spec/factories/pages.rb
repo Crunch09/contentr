@@ -9,8 +9,8 @@ FactoryGirl.define do
         FactoryGirl.create_list(:paragraph, 2, page: contentpage)
       end
     end
-    factory :contentpage_with_content_block do
-      after(:create) { |instance| create(:content_block_usage, page: instance, area_name: :body, position: 0)}
+    factory :contentpage_with_content_block_paragraph do
+      after(:create) { |instance| create(:content_block_paragraph, page: instance, area_name: :body, position: 0)}
     end
   end
 end

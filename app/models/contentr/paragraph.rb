@@ -9,6 +9,8 @@ module Contentr
 
     class_attribute :form_fields
 
+    @auto_publish = false
+
     belongs_to :page, class_name: 'Contentr::Page'
     belongs_to :content_block, class_name: 'Contentr::ContentBlock'
 
@@ -161,6 +163,15 @@ module Contentr
       self.form_fields << {name: name, typ: typ.to_sym}
       permitted_attributes name
     end
+
+    def self.auto_publish(auto_publish = nil)
+      if auto_publish
+        @auto_publish = auto_publish
+      else
+        @auto_publish
+      end
+    end
+
 
     def self.uploader_field(name, uploader)
       _uploader_wrappers << name

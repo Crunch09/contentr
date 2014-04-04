@@ -22,6 +22,7 @@ class Contentr::Admin::ParagraphsController < Contentr::Admin::ApplicationContro
     @paragraph.page = @page
     @page_or_site.paragraphs << @paragraph
     if @page_or_site.save!
+      @paragraph.publish! if paragraph_type_class.auto_publish
       if request.xhr?
         @paragraph = @paragraph.for_edit
         render action: 'show', layout: false

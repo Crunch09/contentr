@@ -7,13 +7,5 @@ class CreateContentrContentBlocks < ActiveRecord::Migration
       t.string :visible, default: true
       t.timestamps
     end
-
-    create_table :contentr_content_block_usages do |t|
-      t.references :content_block
-      t.references :page
-      t.string :area_name
-      t.integer :position, default: 0
-      t.timestamps
-    end
   end
 end

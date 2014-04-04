@@ -1,0 +1,7 @@
+= f.input :selected_content_block, collection: Contentr::ContentBlock.all, include_blank: false
+.control-bar
+  .row
+    .col-xs-12
+      .well.centered
+        = f.button :submit, class: 'submit_btn btn btn-primary'
+        = link_to t('cancel'), '#', class: 'btn btn-link cancel-paragraph-edit-btn', data: {id: paragraph.try(:id)}

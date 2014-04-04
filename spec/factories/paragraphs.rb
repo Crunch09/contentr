@@ -9,4 +9,10 @@ FactoryGirl.define do
     h.area_name "body"
     h.position 0
   end
+
+  factory :content_block_paragraph, class: Contentr::ContentBlockParagraph do |cbp|
+    cbp.selected_content_block {create(:content_block).id}
+    cbp.area_name 'body'
+    cbp.position 0
+  end
 end

@@ -71,8 +71,12 @@ describe Contentr::Admin::PagesController do
         partial: '_article')
       visit(contentr.admin_page_path(contentpage))
       expect(page.all('.existing-paragraphs')).not_to have_content('Artikel anzeigen')
-      within('#area-body') do
-        select 'Artikel anzeigen', from: 'contentblock'
+      within('#area-body .new-paragraph-buttons') do
+        click_link 'Content Block'
+      end
+      within('.existing-paragraphs form') do
+        select 'Artikel anzeigen', from: 'Selected content block'
+        click_button 'Save Paragraph'
       end
       expect(page.find('.existing-paragraphs[data-area="area-body"]')).to have_content(article.title)
     end
@@ -80,7 +84,7 @@ describe Contentr::Admin::PagesController do
     it 'loads existing content blocks' do
       create(:site)
       article = create(:article)
-      contentpage = create(:contentpage_with_content_block)
+      contentpage = create(:contentpage_with_content_block_paragraph)
       visit(contentr.admin_page_path(contentpage))
       expect(page.find('.existing-paragraphs[data-area="area-body"]')).to have_content(article.title)
     end

@@ -11,20 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140403093530) do
+ActiveRecord::Schema.define(version: 20140404130506) do
 
   create_table "articles", force: true do |t|
     t.string   "title"
     t.text     "body"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "contentr_content_block_usages", force: true do |t|
-    t.integer  "content_block_id"
-    t.integer  "page_id"
-    t.string   "area_name"
-    t.integer  "position",         default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
