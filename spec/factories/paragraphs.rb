@@ -11,7 +11,7 @@ FactoryGirl.define do
   end
 
   factory :content_block_paragraph, class: Contentr::ContentBlockParagraph do |cbp|
-    cbp.selected_content_block {create(:content_block).id}
+    cbp.content_block_to_display {create(:content_block)}
     cbp.area_name 'body'
     cbp.position 0
   end

@@ -2,6 +2,8 @@ module Contentr
   class ContentBlock < ActiveRecord::Base
     has_many :paragraphs, dependent: :destroy, before_add: :set_actual_position,
              inverse_of: :content_block, class_name: 'Contentr::Paragraph'
+    has_many :usages, dependent: :destroy, inverse_of: :content_block_to_display,
+      class_name: 'Contentr::ContentBlockParagraph', foreign_key: :content_block_to_display_id
 
     validates :language, presence: true
     validates :name, presence: true

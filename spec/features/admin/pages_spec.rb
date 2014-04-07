@@ -75,7 +75,7 @@ describe Contentr::Admin::PagesController do
         click_link 'Content Block'
       end
       within('.existing-paragraphs form') do
-        select 'Artikel anzeigen', from: 'Selected content block'
+        select 'Artikel anzeigen', from: 'Content block to display'
         click_button 'Save Paragraph'
       end
       expect(page.find('.existing-paragraphs[data-area="area-body"]')).to have_content(article.title)

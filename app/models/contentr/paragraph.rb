@@ -5,7 +5,7 @@ module Contentr
     store :data
     store :unpublished_data
 
-    permitted_attributes :area_name, :position, :data, :unpublished_data
+    permitted_attributes :area_name, :position, :data, :unpublished_data, :content_block_to_display_id
 
     class_attribute :form_fields
 

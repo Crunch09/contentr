@@ -9,6 +9,7 @@ class CreateContentrParagraphs < ActiveRecord::Migration
       t.text 'unpublished_data'
       t.references 'page'
       t.references :content_block
+      t.references :content_block_to_display
       t.timestamps
     end
   end
