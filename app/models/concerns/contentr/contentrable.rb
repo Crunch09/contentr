@@ -6,9 +6,11 @@ module Contentr
       has_one :generated_page, class_name: 'Contentr::LinkedPage', as: :displayable
 
       after_create do
-        site = Contentr::Site.last #FIXME!
-        created_page = self.create_generated_page!(name: "#{self.class.name.downcase} #{self.id}", slug: "#{self.id}", displayable: self, parent: site)
-        Contentr::PageWithoutContent.create!(parent: created_page, name: 'seiten', slug: 'seiten')
+        Contentr::Site.all.each do |site|
+          created_page = self.create_generated_page!(name: "#{self.class.name.downcase} #{self.id}",
+            slug: "#{self.id}", displayable: self, parent: site)
+          Contentr::PageWithoutContent.create!(parent: created_page, name: 'seiten', slug: 'seiten')
+        end
       end
     end
 

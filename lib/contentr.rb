@@ -39,6 +39,10 @@ module Contentr
 
   mattr_accessor :generated_page_areas
   @@generated_page_areas = []
+
+  mattr_accessor :available_grouped_nav_points
+  @@available_grouped_nav_points = []
+
   # Default way to setup Contentr
   def self.setup
     yield self

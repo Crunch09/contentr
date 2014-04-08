@@ -16,8 +16,8 @@
     - @page.siblings.each do |sibling|
         - navbar.link(sibling.name, contentr.admin_page_path(sibling), active: (sibling == @page))
 - if @parent_of_custom_pages
-  = simple_form_for Contentr::Page.new(parent: @parent_of_custom_pages),
-      url: contentr.admin_pages_path, html: {class: 'form-inline'} do |f|
+    = simple_form_for Contentr::Page.new(parent: @parent_of_custom_pages),
+      url: contentr.admin_pages_path, html: {class: 'form-inline subpage-form'} do |f|
       .form-group
         = f.input :parent_id, as: :hidden
         = f.input :name, label_html: {class: 'sr-only'},placeholder: 'Name'
