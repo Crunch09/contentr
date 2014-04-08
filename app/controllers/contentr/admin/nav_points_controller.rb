@@ -17,6 +17,19 @@ class Contentr::Admin::NavPointsController < Contentr::Admin::ApplicationControl
     end
   end
 
+  def edit
+    @nav_point = Contentr::NavPoint.find(params[:id])
+  end
+
+  def update
+    @nav_point = Contentr::NavPoint.find(params[:id])
+    if @nav_point.update(nav_point_params)
+      redirect_to(action: :index, notice: 'Navigationspunkt wurde aktualisiert')
+    else
+      render(action: :edit, warning: 'Navigationspunkt konnte nicht gespeichert werden')
+    end
+  end
+
   def destroy
     @nav_point = Contentr::NavPoint.find(params[:id])
     @nav_point.destroy
@@ -25,6 +38,6 @@ class Contentr::Admin::NavPointsController < Contentr::Admin::ApplicationControl
   private
 
   def nav_point_params
-    params.require(:nav_point).permit(:title, :parent_id)
+    params.require(:nav_point).permit(:title, :parent_id, :url)
   end
 end

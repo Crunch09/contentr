@@ -53,7 +53,7 @@ module Contentr
     #
     # Returns the root of the tree the record is in, self for a root node
     def site
-      self.root
+      self.root == self ? nil : self.root
     end
 
 
@@ -203,7 +203,7 @@ module Contentr
     # Returns a clean slug
     def generate_slug
       if name.present? && slug.blank?
-        self.slug = name.to_slug
+        self.slug = name.to_s.to_slug
       end
     end
 
@@ -211,7 +211,7 @@ module Contentr
     #
     # Returns a clean slug
     def clean_slug
-     self.slug = slug.to_slug unless slug.blank?
+     self.slug = slug.to_s.to_slug unless slug.blank?
     end
 
     # Protected: Builts the url_path from ancestry's path

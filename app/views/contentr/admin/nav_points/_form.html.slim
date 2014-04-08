@@ -1,4 +1,7 @@
 = simple_form_for @nav_point, url: (@nav_point.new_record? ? contentr.admin_nav_points_path : contentr.admin_nav_point_path(@nav_point)) do |f|
   = f.input :title
   = f.input :parent_id, as: :hidden
-  = f.button :submit
+  = f.input :url
+  .well.centered
+    = f.button :submit
+    = link_to 'Abbrechen', contentr.admin_nav_points_path
