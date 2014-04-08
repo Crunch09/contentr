@@ -52,6 +52,9 @@ module Dummy
 
     config.i18n.enforce_available_locales = true
 
+    config.contentr = ActiveSupport::OrderedOptions.new
+    config.contentr.available_sites = [:de, :en]
+
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
   end

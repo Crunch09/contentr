@@ -5,8 +5,7 @@ describe Contentr::ContentBlock do
     it 'can belong to multiple pages' do
       content_block = create(:content_block)
       contentpage = create(:contentpage, name: 'page-one', slug: 'page-one')
-      create(:content_block_paragraph, page: contentpage, content_block_to_display: content_block)
-      create(:content_block_paragraph, page: contentpage, content_block_to_display: content_block)
+      create_list(:content_block_paragraph, 2, page: contentpage, content_block_to_display: content_block)
       expect(content_block.usages.count).to be 2
     end
   end

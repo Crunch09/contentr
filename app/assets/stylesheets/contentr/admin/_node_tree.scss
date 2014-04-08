@@ -1,0 +1,48 @@
+ul.tree {
+
+  &, ul {
+    list-style-type: none;
+    background: image-url("contentr/admin/ul-tree/vline.png") repeat-y;
+    margin: 0;
+    padding: 0;
+  }
+
+  ul {
+//    margin-left: 10px;
+  }
+
+  li {
+    margin: 0;
+    padding: 0 0 0 12px;
+    line-height: 20px;
+    background: image-url("contentr/admin/ul-tree/node.png") no-repeat;
+    color: #369;
+    font-weight: bold;
+  }
+
+  li:last-child {
+    background: #fff image-url("contentr/admin/ul-tree/lastnode.png") no-repeat;
+  }
+
+  &.nav-tree {
+    li a {
+      display: inline-block;
+      width: 100%;
+      padding: 2px 4px 2px 4px;
+      margin-bottom: 1px;
+      @include border-radius(5px);
+      border: 1px solid white;
+
+      &:hover {
+        background-color: #eeeeee;
+      }
+
+      &.active {
+        background-color: #eeeeee;
+        border: 1px solid #08C;
+      }
+
+    }
+
+  }
+}

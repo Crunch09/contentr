@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140407071719) do
+ActiveRecord::Schema.define(version: 20140408071448) do
 
   create_table "articles", force: true do |t|
     t.string   "title"
@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(version: 20140407071719) do
     t.string   "url"
     t.integer  "parent_page_id"
     t.integer  "position",       default: 0
+    t.string   "type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

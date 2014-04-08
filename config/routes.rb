@@ -13,7 +13,7 @@ Contentr::Engine.routes.draw do
     resources :sites
     resources :files
     resources :paragraphs, only: [:edit, :update, :destroy]
-    resources :nav_points, only: [:index]
+    resources :nav_points, only: [:index, :new, :create, :destroy]
     resources :page_types, only: [:new, :create, :index, :edit, :update]
     resources :content_blocks, only: [:new, :create, :edit, :update] do
       resources :paragraphs, only: [:new, :create, :index], controller: 'content_block/paragraphs' do

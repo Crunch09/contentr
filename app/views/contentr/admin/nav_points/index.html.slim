@@ -1,0 +1,6 @@
+- @nav_tree.keys.each do |nt|
+  ul.tree
+    li data-id=nt.id
+      = nt.title
+      = show_subtree(nt, @nav_tree[nt]).join('').html_safe
+javascript:

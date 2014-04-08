@@ -1,5 +1,6 @@
 @import "bootstrap";
 @import "contentr";
+@import "contentr/admin/_node_tree";
 #page-manager {
 
   .container {}
@@ -74,7 +75,7 @@
           padding: 3px 3px;
           border-radius: 6px 0 0 6px;
           font-size: 80%;
-          
+
           ul { list-style-type: none; margin-left: 0px; }
 
           li {

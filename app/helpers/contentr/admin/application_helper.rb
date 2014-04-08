@@ -47,24 +47,24 @@ module Contentr
         "#{page.url}#{params}"
       end
 
-      def show_subtree(subtree)
-        return [] if subtree['children'].empty?
-        st = subtree['children'].collect do |nt|
-          lic = content_tag(:li) do
-            st = show_subtree(nt)
+      def link_to_add_to_subtree(subtree)
+        [link_to(fa_icon('plus-circle'), contentr.new_admin_nav_point_path(parent: subtree)),
+         link_to(fa_icon('minus-circle'), contentr.admin_nav_point_path(subtree), method: :delete, class: 'remove-nav-point')
+        ].join(' ')
+      end
+
+      def show_subtree(subtree, children)
+        return [link_to_add_to_subtree(subtree)] if children.empty?
+        st = children.keys.collect do |nt|
+          lic = content_tag(:li, :'data-id' => nt.id) do
+            st = show_subtree(nt, children[nt])
             "#{nt['title'].html_safe} #{st.join('').html_safe}".html_safe
           end
           lic
         end
-        st.prepend('<ul>')
+        st.prepend("#{link_to_add_to_subtree(subtree)}<ul class='tree'>")
         st.append('</ul>')
         st
-      end
-
-      def test_html_safe
-        content_tag(:li) do
-          "#{'foo'} #{content_tag(:li){'bar'}}".html_safe
-        end
       end
     end
   end
