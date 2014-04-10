@@ -50,7 +50,8 @@ module Contentr
       def link_to_add_to_subtree(subtree)
         [link_to(fa_icon('plus-circle'), contentr.new_admin_nav_point_path(parent: subtree)),
          link_to(fa_icon('wrench'), contentr.edit_admin_nav_point_path(subtree)),
-         link_to(fa_icon('minus-circle'), contentr.admin_nav_point_path(subtree), method: :delete, class: 'remove-nav-point', confirm: 'Sind Sie sicher?')
+         link_to(fa_icon('minus-circle'), contentr.admin_nav_point_path(subtree),
+            method: :delete, class: 'remove-nav-point', data: {confirm: 'Sind Sie sicher?'})
         ].join(' ')
       end
 

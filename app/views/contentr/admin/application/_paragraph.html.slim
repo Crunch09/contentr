@@ -6,7 +6,7 @@ div id="paragraph_#{paragraph.id}" class="paragraph"
           | &#9776;
         = render partial: "/contentr/admin/application/publish", locals: {p: paragraph, area_name: paragraph.area_name, page: paragraph.page}
       .col-xs-2.col-sm-4.btn_area
-        = link_to("<i class='fa fa-edit'></i>".html_safe,
+        = link_to(fa_icon('edit'),
             contentr.edit_admin_paragraph_path(paragraph), rel: 'contentr-overlay',
               class: 'btn btn-mini btn-inverse paragraph-edit-btn', remote: true, data: {id: paragraph.id})
         = link_to("<i class='fa fa-trash-o'></i>".html_safe,

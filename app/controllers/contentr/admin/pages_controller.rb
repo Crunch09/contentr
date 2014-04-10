@@ -17,9 +17,11 @@ class Contentr::Admin::PagesController < Contentr::Admin::ApplicationController
   def create
     @page = Contentr::ContentPage.new(page_params)
     if @page.save
+      Contentr::NavPoint.create!(title: @page.name, parent_page: @page.parent,
+        page: @page)
       redirect_to :back, notice: 'Seite wurde erstellt.'
     else
-      render :action => :new
+      redirect_to :back, notice: @page.errors.full_messages.join
     end
   end
 

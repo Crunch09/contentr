@@ -4,4 +4,8 @@
   = f.input :name
   = f.input :language
   = f.input :partial, collection: Contentr::ContentBlock.available_partials, include_blank: 'Paragraphen nutzen'
-  = f.button :submit
+  .control-bar
+    .row
+      .col-xs-12
+        .well.centered
+          = f.button :submit

@@ -2,6 +2,7 @@
   = f.input :title
   = f.input :parent_id, as: :hidden
   = f.input :url
-  .well.centered
-    = f.button :submit
-    = link_to 'Abbrechen', contentr.admin_nav_points_path
+  = f.input :page_tag, as: :tag_chooser, class_name: 'Etikett::Tag', multiple: false
+  .well.centered.control-bar
+    = f.button :submit, class: 'submit_btn btn margin-computed-right'
+    = link_to 'Abbrechen', :back

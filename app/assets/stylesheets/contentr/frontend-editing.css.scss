@@ -120,7 +120,8 @@ $contentr-toolbar-color: #fff !default;
 
   .paragraph {
     .toolbar {
-      background-color: lighten($contentr-toolbar-background-color, 5%);;
+      background-color: lighten($contentr-toolbar-background-color, 15%);;
+      // background-color: gray;
     }
   }
 }
