@@ -1,5 +1,6 @@
 module Contentr
   module ApplicationHelper
+    include Admin::ParagraphsHelper
 
     # Renders an area of paragraphs
     #

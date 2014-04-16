@@ -7,12 +7,15 @@
     - actions.add 'Seite veröffentlichen', contentr.publish_admin_page_path(@page), link_to_options: { class: 'btn btn-primary'}
 - bsat_sidebar_nav do |navbar|
   - if @page.displayable
-    - if @parent_of_custom_pages.children.empty?
-      - navbar.divider
+    - navbar.back(t('back'), :back)
+    - navbar.link 'Hauptseite', contentr.admin_page_path(@page), active: true
+    - navbar.link 'Unterseiten bearbeiten', contentr.admin_sub_pages_path(@page)
+    - navbar.divider
     - @parent_of_custom_pages.children.each do |child|
       - navbar.link child.name, contentr.admin_page_path(child)
   - else
-    - navbar.back(t('back'), contentr.admin_page_path(@page.parent)) if @page.parent.present?
+    - if @page.parent.present?
+      - navbar.back(t('back'), contentr.admin_page_path(@page.parent))
     - @page.siblings.each do |sibling|
         - navbar.link(sibling.name, contentr.admin_page_path(sibling), active: (sibling == @page))
 - if @parent_of_custom_pages

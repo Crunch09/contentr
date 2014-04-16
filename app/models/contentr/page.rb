@@ -181,7 +181,7 @@ module Contentr
 
     def areas
       if self.displayable.present?
-        Contentr.generated_page.areas
+        Contentr.generated_page_areas
       else
         Contentr.default_areas
       end

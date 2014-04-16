@@ -7,6 +7,11 @@ Contentr::Engine.routes.draw do
       member do
         get :publish
         get :hide
+        resources :sub_pages, only: [:index] do
+          collection do
+            patch :reorder
+          end
+        end
       end
       resources :paragraphs, only: [:show, :update, :index]
     end

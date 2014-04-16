@@ -45,6 +45,24 @@ jQuery(function($) {
     }
   });
 
+  $('.contentr-sub-pages').sortable({
+    items: 'li',
+    handle: '.handle',
+    update: function(event, ui) {
+      var ids = $(this).sortable('serialize');
+      var current_page = $(this).attr('data-page');
+      var area_name = $(this).attr('data-area');
+      $.ajax({
+        type: "PATCH",
+        url: $(this).data('reorder-path'),
+        data: ids,
+        error: function(msg) {
+          alert("Error: Please try again.");
+        }
+      });
+    }
+  });
+
   $('.paragraph-add-btn').on('ajax:success', function(e, data, status, xhr){
     $('.existing-paragraphs[data-area="'+ $(this).data('area') +'"]').append(data);
     if($(data).find('.wysihtml').length > 0){

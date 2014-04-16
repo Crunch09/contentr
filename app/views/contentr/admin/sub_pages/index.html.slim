@@ -1,0 +1,17 @@
+- bsat_page_title 'Unterseiten'
+.contentr-sub-pages data-reorder-path=contentr.reorder_admin_sub_pages_path(@parent_page)
+  ul.list-group
+    - @sub_nav_items.each do |sub_nav|
+      li.list-group-item id="navpoints_#{sub_nav.id}"
+        .row
+          .col-xs-5
+            .handle
+              | &#9776;
+              = sub_nav.title
+          .col-xs-3
+            = link_to(fa_icon('wrench', text: 'Seite'), contentr.admin_page_path(sub_nav.page)) if sub_nav.page.present?
+          .col-xs-3
+            = link_to(fa_icon('wrench', text: 'Nav'), contentr.edit_admin_nav_point_path(sub_nav))
+          .col-xs-1
+            = link_to fa_icon('trash-o'), contentr.admin_page_path(sub_nav.page),
+              method: :delete, data: {confirm: t('are_you_sure')}
