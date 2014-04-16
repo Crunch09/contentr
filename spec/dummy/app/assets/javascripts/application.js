@@ -7,4 +7,5 @@
 //= require jquery
 //= require jquery_ujs
 //= require contentr
+//= require tabulatr
 //= require_tree .

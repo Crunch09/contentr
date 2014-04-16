@@ -1,3 +1,8 @@
+- bsat_page_title @content_block.name
+- bsat_sidebar_nav do |navbar|
+  - navbar.divider
+  - @content_block.usages.each do |usage|
+    - navbar.link usage.page.title, contentr.admin_page_path(usage.page)
 .contentr-area#area-main data-reorder-path="#{contentr.reorder_admin_content_block_paragraphs_path(@content_block)}"
   .existing-paragraphs data-area='area-main'
     = render 'contentr/admin/paragraphs', existing_paragraphs: @content_block.paragraphs,

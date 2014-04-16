@@ -1,5 +1,5 @@
 class Contentr::Admin::ContentBlocksController < Contentr::Admin::ApplicationController
-
+  layout 'application'
   def index
     tabulatr_for Contentr::ContentBlock
   end
