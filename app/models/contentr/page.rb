@@ -7,13 +7,17 @@ module Contentr
     has_many :paragraphs, class_name: 'Contentr::Paragraph'
     belongs_to :displayable, polymorphic: true
     belongs_to :page_type, class_name: 'Contentr::PageType'
+    belongs_to :page_in_default_language, class_name: 'Contentr::Page'
     has_many :sub_nav_items, class_name: 'Contentr::NavPoint', foreign_key: :parent_page_id
+    has_many :pages_in_foreign_languages, class_name: 'Contentr::Page', foreign_key: :page_in_default_language_id
 
     acts_as_tree
 
     # Validations
     validates_presence_of   :name
     validates_presence_of   :slug
+    validates :language, inclusion: FormTranslation.languages.map(&:to_s)
+
     # validates_format_of     :slug, with: /\A[a-z0-9\s-]+\z/
     # validates_presence_of   :path
     # validates_uniqueness_of :path, allow_nil: false, allow_blank: false
@@ -106,14 +110,14 @@ module Contentr
     #
     # Returns if visable or not
     def visible?
-      self.published? && !self.hidden?
+      self.published?
     end
 
     # Public: Fetches all visible and published children
     #
     # Returns the matching children
     def visible_children
-      self.children.where(published: true, hidden: false)
+      self.children.where(published: true)
     end
 
     # Public: gets all area_names of this page's paragraphs
@@ -159,13 +163,15 @@ module Contentr
     # end
 
     def url
-      "#{self.path.select{|p| p.displayable || p.id == self.id}.collect(&:url_map).compact.join('/')}".gsub(/\/+/, '/')
+      "#{self.path.select{|p| p.displayable || p.id == self.id}.collect(&:url_map).compact.join('/')}".squeeze('/')
     end
 
     def url_map
       if self.displayable.present?
         p = PathMapper.new(self.displayable)
         p.path
+      elsif self.parent.try(:displayable).present?
+        [Contentr.divider_between_page_and_children, self.url_path].join('/').squeeze('/')
       else
         self.url_path
       end
@@ -194,6 +200,19 @@ module Contentr
 
     def hide!
       self.update(published: false)
+    end
+
+    def get_page_for_language(language)
+      return self if self.language == language.to_s
+      self.pages_in_foreign_languages.find_by(language: language.to_s)
+    end
+
+    def default_page
+      self.page_in_default_language.present? ? self.page_in_default_language : self
+    end
+
+    def self.default_page_for_slug(slug)
+      self.find_by(slug: slug, page_in_default_language_id: nil)
     end
 
     protected

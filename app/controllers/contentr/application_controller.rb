@@ -9,4 +9,7 @@ class Contentr::ApplicationController < ApplicationController
   Contentr::Page
   Contentr::Site
   # end hack
+  before_filter do
+    I18n.locale = params[:locale] || I18n.default_locale
+  end
 end

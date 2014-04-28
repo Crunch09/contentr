@@ -13,7 +13,7 @@ module Contentr
           :enctype => "multipart/form-data",
           remote: true,
           data: {id: paragraph.try(:id)}) do |f|
-            yield(f) # << f.input(:area_name, :as => :hidden)
+            yield(f)
           end
       end
 
@@ -25,7 +25,7 @@ module Contentr
           :enctype => "multipart/form-data",
           remote: true,
           data: {id: paragraph.try(:id)}) do |f|
-            yield(f) # << f.input(:area_name, :as => :hidden)
+            yield(f)
           end
       end
 
@@ -44,13 +44,14 @@ module Contentr
         params = {preview: true}.to_query
         url = page.url
         params = url['?'] ? params.prepend('&') : params.prepend('?')
-        "#{page.url}#{params}"
+        "#{page.url}#{params}".squeeze('?').squeeze('&').squeeze('/')
       end
 
       def link_to_add_to_subtree(subtree)
         [link_to(fa_icon('plus-circle'), contentr.new_admin_nav_point_path(parent: subtree)),
          link_to(fa_icon('wrench'), contentr.edit_admin_nav_point_path(subtree)),
-         link_to(fa_icon('minus-circle'), contentr.admin_nav_point_path(subtree), method: :delete, class: 'remove-nav-point', confirm: 'Sind Sie sicher?')
+         link_to(fa_icon('minus-circle'), contentr.admin_nav_point_path(subtree),
+            method: :delete, class: 'remove-nav-point', data: {confirm: 'Sind Sie sicher?'})
         ].join(' ')
       end
 

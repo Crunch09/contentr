@@ -1,0 +1,27 @@
+ul.nav.nav-tabs
+  - FormTranslation.languages.each do |l|
+    li class="#{'active' if l.to_s == @page.language}"
+      - page_for_language = @default_page.get_page_for_language(l)
+      - if page_for_language.present?
+        - show_page_path = contentr.admin_page_path(page_for_language)
+      - else
+        - show_page_path = contentr.new_admin_page_path(page_for_language)
+      = link_to l, show_page_path
+
+.tab-content
+  - FormTranslation.languages.each do |l|
+    div class="tab-pane #{'active' if l.to_s == @page.language}"
+      = render 'form'
+
+- bsat_page_title t('.new_page')
+- bsat_sidebar_nav do |navbar|
+  - if @page.displayable
+    - navbar.back(t('back'), :back)
+    - if @page.default_page.persisted?
+      - navbar.link 'Hauptseite', contentr.admin_page_path(@page.default_page)
+  - else
+    - if @page.parent.present?
+      - navbar.back(t('back'), contentr.admin_page_path(@page.parent))
+    - @page.siblings.each do |sibling|
+        - navbar.link(sibling.name, contentr.admin_page_path(sibling), active: (sibling == @page))
+

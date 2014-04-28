@@ -7,19 +7,19 @@ describe Contentr::Page do
   before(:each) do
 
     site = create(:site)
-    node1 = Contentr::Page.create!(name: 'Node1', parent: site)
-    node2 = Contentr::Page.create!(name: 'Node2', parent: site)
-    node3 = Contentr::Page.create!(name: 'Node3', parent: site)
+    node1 = create(:contentpage, name: 'Node1', slug: 'Node1', parent: site)
+    node2 = create(:contentpage, name: 'Node2', slug: 'Node2', parent: site)
+    node3 = create(:contentpage, name: 'Node3', slug: 'Node3', parent: site)
 
-    node11 = Contentr::Page.create!(name: 'Node11', parent: node1)
-    node12 = Contentr::Page.create!(name: 'Node12', parent: node1)
-    node21 = Contentr::Page.create!(name: 'Node21', parent: node2)
-    node22 = Contentr::Page.create!(name: 'Node22', parent: node2)
-    node31 = Contentr::Page.create!(name: 'Node31', parent: node3)
+    node11 = create(:contentpage, name: 'Node11', slug: 'Node11', parent: node1)
+    node12 = create(:contentpage, name: 'Node12', slug: 'Node12', parent: node1)
+    node21 = create(:contentpage, name: 'Node21', slug: 'Node21', parent: node2)
+    node22 = create(:contentpage, name: 'Node22', slug: 'Node22', parent: node2)
+    node31 = create(:contentpage, name: 'Node31', slug: 'Node31', parent: node3)
 
-    node211 = Contentr::Page.create!(name: 'Node211', parent: node21)
-    node212 = Contentr::Page.create!(name: 'Node212', parent: node21)
-    node221 = Contentr::Page.create!(name: 'Node221', parent: node22)
+    node211 = create(:contentpage, name: 'Node211', slug: 'Node211', parent: node21)
+    node212 = create(:contentpage, name: 'Node212', slug: 'Node212', parent: node21)
+    node221 = create(:contentpage, name: 'Node221', slug: 'Node221', parent: node22)
   end
 
   it 'root nodes' do

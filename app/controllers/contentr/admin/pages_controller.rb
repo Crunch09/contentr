@@ -1,6 +1,8 @@
 class Contentr::Admin::PagesController < Contentr::Admin::ApplicationController
   before_filter :load_root_page
 
+  layout 'application'
+
   def index
     @pages = @root_page.present? ? @root_page.children
                                  : Contentr::Site.all
@@ -11,15 +13,23 @@ class Contentr::Admin::PagesController < Contentr::Admin::ApplicationController
   end
 
   def new
-    @page = Contentr::ContentPage.new
+    @default_page = Contentr::Page.find(params[:default_page])
+    @page = Contentr::Page.new(language: params[:language])
+    if @default_page.present?
+      @page.page_in_default_language = @default_page
+      @page.displayable = @default_page.displayable
+      @page.parent = @default_page.parent
+    end
   end
 
   def create
     @page = Contentr::ContentPage.new(page_params)
     if @page.save
-      redirect_to :back, notice: 'Seite wurde erstellt.'
+      Contentr::NavPoint.create!(title: @page.name, parent_page: @page.parent,
+        page: @page)
+      redirect_to contentr.admin_page_path(@page), notice: 'Seite wurde erstellt.'
     else
-      render :action => :new
+      redirect_to :back, notice: @page.errors.full_messages.join
     end
   end
 
@@ -29,8 +39,10 @@ class Contentr::Admin::PagesController < Contentr::Admin::ApplicationController
       redirect_to contentr.admin_page_path(@page.parent)
       return
     end
-    if @page.displayable
-      @parent_of_custom_pages = @page.displayable.parent_of_custom_pages
+    if @page.page_in_default_language.present?
+      @default_page = @page.page_in_default_language
+    else
+      @default_page = @page
     end
     render action: 'show', layout: 'application'
   end
@@ -76,7 +88,8 @@ class Contentr::Admin::PagesController < Contentr::Admin::ApplicationController
 
   protected
     def page_params
-      params.require(:page).permit(:name, :parent_id)#*Contentr::Page.permitted_attributes)
+      params.require(:page).permit(:name, :parent_id, :published, :language,
+        :displayable_type, :displayable_id, :slug, :page_type_id, :page_in_default_language_id)#*Contentr::Page.permitted_attributes)
     end
 
 end

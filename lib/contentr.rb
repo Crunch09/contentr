@@ -3,6 +3,7 @@
 require 'rails'
 require 'simple_form'
 require "compass"
+require 'form_translation'
 
 module Contentr
 
@@ -43,6 +44,9 @@ module Contentr
   mattr_accessor :available_grouped_nav_points
   @@available_grouped_nav_points = []
 
+  mattr_accessor :divider_between_page_and_children
+  @@divider_between_page_and_children = ''
+
   # Default way to setup Contentr
   def self.setup
     yield self
@@ -69,3 +73,5 @@ end
 # Require contentr engine
 require 'contentr/string_extensions'
 require 'contentr/engine'
+require 'contentr/backend_routing'
+require 'contentr/frontend_routing'

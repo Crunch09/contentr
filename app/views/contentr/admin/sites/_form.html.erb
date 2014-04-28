@@ -3,7 +3,6 @@
     :method => (@site.new_record? ? :post : :put),
     :html   => {:class => 'form-horizontal'} do |f| %>
 
-    <%= f.input :hidden, :as => :boolean %>
     <%= f.input :published, :as => :boolean %>
 
     <%= f.input :name %>

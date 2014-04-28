@@ -1,7 +1,7 @@
 class Contentr::Admin::SubPagesController < Contentr::Admin::ApplicationController
   layout 'application'
   def index
-    @parent_page = Contentr::Page.find(params[:id]).displayable.parent_of_custom_pages
+    @parent_page = Contentr::Page.find(params[:id])
     @sub_nav_items =  @parent_page.sub_nav_items.order('position asc')
   end
 

@@ -29,7 +29,6 @@ module Contentr
         # render the ul tag
         content_tag(:ul) do
           pages.each_with_index.collect do |page, index|
-            next if page.hidden #and not contentr_authorized?
             next unless page.published #or contentr_authorized?
 
             # options for the li tag
@@ -66,7 +65,7 @@ module Contentr
 
       # render yo
       if ancestors.present?
-        pages = ancestors.first.children #.where(published: true, hidden: false)
+        pages = ancestors.first.children
         if pages.present?
           content_tag(:div, :class => "contentr #{options[:class] || 'menu'}") do
             fn.call(pages, 1)

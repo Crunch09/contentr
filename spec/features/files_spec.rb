@@ -14,14 +14,14 @@ describe "files" do
 
   context "file is found" do
     it "displays the page name" do
-     visit "/contentr/file/test"
+     visit '/file/test'
      page.response_headers["Content-Type"].should eql "image/jpeg"
     end
   end
 
   context "file is not found" do
     it "should redirect to root page" do
-      visit "/contentr/file/foobar123"
+      visit "/file/foobar123"
       page.status_code.should eql 404
     end
   end

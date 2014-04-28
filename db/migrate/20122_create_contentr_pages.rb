@@ -6,17 +6,17 @@ class CreateContentrPages < ActiveRecord::Migration
       t.string 'type'
       t.string 'menu_title'
       t.boolean 'published', default: false
-      t.boolean 'hidden', default: false
       t.string 'layout', default: "application"
       t.string 'linked_to'
       t.string 'ancestry'
       t.string 'url_path'
+      t.string :language
+      t.references :page_in_default_language
       t.references :page_type
       t.references :displayable, polymorphic: true
       t.timestamps
     end
     add_index :contentr_pages, :published
-    add_index :contentr_pages, :hidden
     add_index :contentr_pages, :ancestry
   end
 

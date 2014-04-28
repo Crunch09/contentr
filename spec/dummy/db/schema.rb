@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140408071448) do
+ActiveRecord::Schema.define(version: 20140425141141) do
 
   create_table "articles", force: true do |t|
     t.string   "title"
@@ -80,12 +80,13 @@ ActiveRecord::Schema.define(version: 20140408071448) do
     t.string   "slug"
     t.string   "type"
     t.string   "menu_title"
-    t.boolean  "published",        default: false
-    t.boolean  "hidden",           default: false
-    t.string   "layout",           default: "application"
+    t.boolean  "published",                   default: false
+    t.string   "layout",                      default: "application"
     t.string   "linked_to"
     t.string   "ancestry"
     t.string   "url_path"
+    t.string   "language"
+    t.integer  "page_in_default_language_id"
     t.integer  "page_type_id"
     t.integer  "displayable_id"
     t.string   "displayable_type"
@@ -94,7 +95,6 @@ ActiveRecord::Schema.define(version: 20140408071448) do
   end
 
   add_index "contentr_pages", ["ancestry"], name: "index_contentr_pages_on_ancestry"
-  add_index "contentr_pages", ["hidden"], name: "index_contentr_pages_on_hidden"
   add_index "contentr_pages", ["published"], name: "index_contentr_pages_on_published"
 
   create_table "contentr_paragraphs", force: true do |t|

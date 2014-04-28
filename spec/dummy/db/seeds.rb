@@ -1,13 +1,13 @@
 # encoding: utf-8
 
-site = Contentr::Site.create!(name: "cms", slug: "cms")
+site = Contentr::Site.create!(name: "cms", slug: "cms", language: 'en')
 
 p = Contentr::ContentPage.new(
   parent: site,
   name: "Foo",
   slug: "foo",
   published: true,
-  hidden: false
+  language: 'en'
 )
 p.paragraphs << Contentr::HtmlParagraph.new(
   body: %{
@@ -37,7 +37,7 @@ p = Contentr::ContentPage.new(
   name: "Bar",
   slug: "bar",
   published: true,
-  hidden: false
+  language: 'en'
 )
 p.paragraphs << Contentr::HtmlParagraph.new(
   body: %{

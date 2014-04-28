@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'rake',           '~> 10.2.0'
   s.add_dependency 'rails',          '>= 4.0.0'
-  s.add_dependency 'simple_form',    '~> 3.0.0'
+  s.add_dependency 'simple_form',    '~> 3.1.0.rc1'
   s.add_dependency 'bson_ext',       '~> 1.5'
   s.add_dependency 'compass-rails',  "~> 1.1.3"
   s.add_dependency 'sass-rails'
@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'font-awesome-rails'
   s.add_dependency 'carrierwave', '~> 0.10.0'
   s.add_dependency 'jquery-ui-rails', '~> 4.2.0'
-  s.add_dependency 'ancestry', '~> 2.0.0'
+  s.add_dependency 'ancestry', '~> 2.1.0'
   s.add_development_dependency 'capybara'
   s.add_development_dependency 'launchy'
   s.add_development_dependency 'factory_girl_rails', "~> 4.4.0"

@@ -10,7 +10,7 @@ gem 'sqlite3'
 gem 'contentr', path: "../../../contentr"
 
 gem 'tabulatr2', path: '~/Code/tabulatr2'
-gem 'ancestry', github: 'stefankroes/ancestry'
+gem 'form_translation', github: 'Crunch09/form_translation'
 gem 'bsat', github: 'renspr/bsat'
 
 # Gems used only for assets and not required

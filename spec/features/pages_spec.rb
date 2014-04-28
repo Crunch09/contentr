@@ -24,7 +24,7 @@ describe "pages" do
   it 'displays the content' do
     site = create(:site, slug: 'en')
     a = create(:article, title: 'wicked product', body: 'this article is awesome!')
-    content_page = a.sub_pages.create(name: 'info')
+    content_page = create(:contentpage, name: 'info', parent: a.default_page, slug: 'info')
     paragraph = create(:paragraph, page: content_page, body: 'hello world!').publish!
     visit "/en/articles/#{a.id}/seiten/info"
     expect(page).to have_content('hello world!')

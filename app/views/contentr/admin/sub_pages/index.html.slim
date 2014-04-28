@@ -15,3 +15,10 @@
           .col-xs-1
             = link_to fa_icon('trash-o'), contentr.admin_page_path(sub_nav.page),
               method: :delete, data: {confirm: t('are_you_sure')}
+= simple_form_for Contentr::Page.new(parent: @parent_page),
+  url: contentr.admin_pages_path, html: {class: 'form-inline subpage-form'} do |f|
+  .form-group
+    = f.input :parent_id, as: :hidden
+    = f.input :name, label_html: {class: 'sr-only'},placeholder: 'Name'
+    = f.input :language, as: :hidden, input_html: {value: FormTranslation.default_language.to_s}
+  = f.button :submit, 'Unterseite erstellen', class: 'btn btn-info dontmove'
