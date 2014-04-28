@@ -14,7 +14,7 @@ Dummy::Application.routes.draw do
   namespace :store do
     resources :products
   end
-
+  contentr_frontend_routes
   mount Contentr::Engine, at: 'contentr'
   #root :to => redirect("/home")
 end
