@@ -3,8 +3,17 @@ module Contentr
 
     has_many :pages, class_name: 'Contentr::Page'
 
-    validate :columns_have_correct_count
+    # validate :columns_have_correct_count
     validates :name, presence: true
+
+    def areas
+      allowed = []
+      allowed << :headline if self.header_allowed_paragraphs.present?
+      allowed << :left_column if self.col1_allowed_paragraphs.present?
+      allowed << :center_column if self.col2_allowed_paragraphs.present?
+      allowed << :right_column if self.col3_allowed_paragraphs.present?
+      allowed
+    end
 
     private
 

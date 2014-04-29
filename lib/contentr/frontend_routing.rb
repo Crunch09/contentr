@@ -3,7 +3,10 @@ module Contentr::FrontendRouting
     get 'file/:slug' => 'contentr/files#show'
   end
 
-  def contentr_frontend_routes_for(klass)
+  def contentr_frontend_routes_for(klass, &block)
+    scope 'seiten' do
+      yield if block_given?
+    end
     get 'seiten/*args', to: 'contentr/pages#show', defaults: {klass: klass}
   end
 end

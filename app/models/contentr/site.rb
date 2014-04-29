@@ -15,7 +15,7 @@ module Contentr
     #
     # Returns the default site from the db
     def self.default
-      self.find_or_create_by!(slug: Contentr.default_site, name: Contentr.default_site, language: I18n.locale.to_s)
+      self.find_or_create_by!(slug: Contentr.default_site, name: Contentr.default_site, language: I18n.default_locale.to_s)
     end
 
     # Public: Gets the default_page

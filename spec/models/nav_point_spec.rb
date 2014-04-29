@@ -25,9 +25,10 @@ describe Contentr::NavPoint do
       nav_point = create(:nav_point, title: 'root')
       child_nav_point = create(:nav_point, title: 'child', parent: nav_point)
       tree = Contentr::NavPoint.navigation_tree
-      expect(tree[0]['title']).to eq('root')
-      expect(tree[0]['children'].count).to eq 1
-      expect(tree[0]['children'].first['title']).to eq 'child'
+      keys = tree.keys
+      expect(keys.first.title).to eq('root')
+      expect(tree[keys.first].count).to eq 1
+      expect(tree[keys.first].first.first.title).to eq 'child'
     end
   end
 end

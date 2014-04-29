@@ -1,7 +1,9 @@
-= simple_form_for @nav_point, url: (@nav_point.new_record? ? contentr.admin_nav_points_path : contentr.admin_nav_point_path(@nav_point)) do |f|
-  = f.input :title
+= simple_translated_form_for @nav_point, url: (@nav_point.new_record? ? contentr.admin_nav_points_path : contentr.admin_nav_point_path(@nav_point)) do |f|
+  = f.languagify do |l|
+    = l.input :title
   = f.input :parent_id, as: :hidden
   = f.input :url
-  .well.centered
-    = f.button :submit
-    = link_to 'Abbrechen', contentr.admin_nav_points_path
+  = f.input :page_tag, as: :tag_single_chooser, class_name: 'Etikett::Tag', multiple: false
+  .well.centered.control-bar
+    = f.button :submit, class: 'submit_btn btn margin-computed-right'
+    = link_to t('cancel'), :back

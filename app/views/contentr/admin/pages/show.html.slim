@@ -11,8 +11,11 @@ ul.nav.nav-tabs
 .tab-content
   - FormTranslation.languages.each do |l|
     div class="tab-pane #{'active' if l.to_s == @page.language}"
-      = render 'contentr/admin/pages/areas', areas: @page.areas, page: @page if l.to_s == @page.language
-
+      - if l.to_s == @page.language
+        = render 'contentr/admin/pages/areas', areas: @page.areas, page: @page
+        - if @page.areas.none?
+          .jumbotron
+            = t('.no_areas')
 
 - bsat_page_title @page.name
 - bsat_page_actions do |actions|

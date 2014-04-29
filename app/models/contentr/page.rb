@@ -186,10 +186,10 @@ module Contentr
     end
 
     def areas
-      if self.displayable.present?
-        Contentr.generated_page_areas
+      if self.page_type.present?
+        self.page_type.areas
       else
-        Contentr.default_areas
+        []
       end
     end
 

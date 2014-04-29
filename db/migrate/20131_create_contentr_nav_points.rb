@@ -9,6 +9,7 @@ class CreateContentrNavPoints < ActiveRecord::Migration
       t.references :parent_page
       t.integer :position, default: 0
       t.string :type
+      t.text :payload
       t.index :ancestry
 
       t.timestamps

@@ -2,6 +2,7 @@ class CreateContentrPageTypes < ActiveRecord::Migration
   def change
     create_table :contentr_page_types do |t|
       t.string :name
+      t.string :sid
       t.integer :header_offset, default: 0
       t.integer :col1_offset, default: 0
       t.integer :col2_offset, default: 0
