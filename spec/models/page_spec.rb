@@ -5,32 +5,32 @@ require 'spec_helper'
 describe Contentr::Page do
   it 'site must be a root' do
     site1 = Contentr::Site.new(name: 'site1', language: 'en')
-    site1.should be_valid
+    expect(site1).to be_valid
     site1.save!
     site2 = Contentr::Site.new(name: 'site1', parent: site1, language: 'en')
-    site2.should be_invalid
+    expect(site2).to be_invalid
   end
 
   it 'the parent of a page must be of type Contentr::Page' do
     site = Contentr::Site.create!(name: 'site', language: 'en')
     page = Contentr::Page.new(name: 'page', parent: site, language: 'en')
-    site.should be_valid
-    page.should be_valid
+    expect(site).to be_valid
+    expect(page).to be_valid
 
     node = Contentr::Page.create!(name: 'node', language: 'en')
     page = Contentr::Page.new(name: 'page', parent: node, language: 'en')
-    node.should be_valid
-    page.should be_valid
+    expect(node).to be_valid
+    expect(page).to be_valid
   end
 
   it 'children of a page must be of type Contentr::Page' do
     site = Contentr::Site.create!(name: 'site', language: 'en')
     page = Contentr::Page.create!(name: 'page', parent: site, language: 'en')
-    site.should be_valid
-    page.should be_valid
+    expect(site).to be_valid
+    expect(page).to be_valid
 
     node = Contentr::Site.new(name: 'node', parent: page, language: 'en')
-    node.should be_invalid
+    expect(node).to be_invalid
   end
 
   describe '#url' do

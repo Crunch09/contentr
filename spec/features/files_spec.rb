@@ -15,14 +15,14 @@ describe "files" do
   context "file is found" do
     it "displays the page name" do
      visit '/file/test'
-     page.response_headers["Content-Type"].should eql "image/jpeg"
+     expect(response_headers['Content-Type']).to eql 'image/jpeg'
     end
   end
 
   context "file is not found" do
     it "should redirect to root page" do
       visit "/file/foobar123"
-      page.status_code.should eql 404
+      expect(page.status_code).to be 404
     end
   end
 end

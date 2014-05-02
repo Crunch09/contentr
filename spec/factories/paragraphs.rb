@@ -6,13 +6,13 @@ FactoryGirl.define do
           Ziel aller Ma&szlig;nahmen ist es, betroffenen Kindern direkt zu helfen und gesellschaftliche Entwicklungen durch nachhaltige Projekte zu unterst&uuml;tzen. <span style="color:#005C94">ist eine Manufaktur der Menschlichkeit.</span>
         </h1>
         </div>}
-    h.area_name "body"
+    h.area_name :center_column
     h.position 0
   end
 
   factory :content_block_paragraph, class: Contentr::ContentBlockParagraph do |cbp|
     cbp.content_block_to_display {create(:content_block)}
-    cbp.area_name 'body'
+    cbp.area_name :center_column
     cbp.position 0
   end
 end

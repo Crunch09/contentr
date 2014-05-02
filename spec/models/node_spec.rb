@@ -10,17 +10,17 @@ describe Contentr::Page do
 
   it "always has a name" do
     page = build(:contentpage, name: '')
-    page.should_not be_valid
+    expect(page).to_not be_valid
   end
 
   it "has an auto generated slug" do
     page = create(:contentpage, name: "Node44", slug: 'node44')
-    page.slug.should eql "node44"
+    expect(page.slug).to eql 'node44'
   end
 
   it "slug can be set to a custom value" do
     page = create(:contentpage, name: 'Node1', slug: 'test-page')
-    page.slug.should eql 'test-page'
+    expect(page.slug).to eql 'test-page'
   end
 
   it 'slug matches the format /^[a-z0-9\s-]+$/' do
@@ -35,12 +35,12 @@ describe Contentr::Page do
   it 'slug is unique within the parent scope' do
     page1 = create(:contentpage, :name => 'Some Page', :slug => 'it-page')
     page2 = build(:contentpage, :name => 'Some other Page', :slug => 'it-page')
-    page2.should_not be_valid
-    assert_equal page2.errors.first[0], :slug
-    assert_equal page2.errors.first[1], 'must be unique'
+    expect(page2).to_not be_valid
+    expect(page2.errors.first.first).to eql :slug
+    expect(page2.errors.first[1]).to eql 'must be unique'
     # .. but we can use the same slug in another parent scope
     page2 = build(:contentpage, :name => 'Some other Page', :slug => 'it-page', :parent => page1)
-    page2.should be_valid, page2.errors.full_messages.join('; ')
+    expect(page2).to be_valid, page2.errors.full_messages.join('; ')
   end
 
   it 'has a generated path' do
@@ -48,15 +48,16 @@ describe Contentr::Page do
     page1 = create(:contentpage, name: 'Page 1', slug: 'page1', parent: site).reload
     page2 = create(:contentpage, :name => 'Page 2', :slug => 'page2', :parent => page1).reload
     page3 = create(:contentpage, :name => 'Page 3', :slug => 'page3', :parent => page2).reload
-    page1.url_path.should eql '/page1'
-    page2.url_path.should eql '/page1/page2'
-    page3.url_path.should eql '/page1/page2/page3'
+    expect(page1.url_path).to eql '/page1'
+    expect(page2.url_path).to eql '/page1/page2'
+    expect(page3.url_path).to eql '/page1/page2/page3'
+
   end
 
   it 'path can\'t be set manually' do
     page = create(:contentpage, :name => 'Page 1', :slug => 'page1').reload
-    page.url_path.should eql '/page1'
-    lambda { page.url_path = 'this_is_not_allowed' }.should raise_error(RuntimeError)
+    expect(page.url_path).to eql '/page1'
+    expect{page.url_path = 'this_is_not_allowed'}.to raise_error(RuntimeError)
   end
 
   it 'one can find a node by path' do

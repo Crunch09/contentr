@@ -17,26 +17,26 @@ describe Contentr::Paragraph do
   it "attributes are saved properly" do
     tp = TestParagraph.new(name: "huhu!", area_name: 'foo')
     tp.save
-    tp.unpublished_data["name"].should eq "huhu!"
+    expect(tp.unpublished_data["name"]).to eql "huhu!"
     tp.reload
     tp.name = "hallo!"
-    tp.name.should eq 'hallo!'
-    tp.unpublished_data["name"].should eq "huhu!"
+    expect(tp.name).to eq 'hallo!'
+    expect(tp.unpublished_data["name"]).to eql "huhu!"
     tp.save
-    tp.name.should be_nil
-    tp.unpublished_data['name'].should eq 'hallo!'
+    expect(tp.name).to be_nil
+    expect(tp.unpublished_data['name']).to eql 'hallo!'
     tp.publish!
-    tp.name.should eq 'hallo!'
-    tp.unpublished_data['name'].should eq 'hallo!'
+    expect(tp.name).to eq 'hallo!'
+    expect(tp.unpublished_data['name']).to eql 'hallo!'
     tp.name = "Horst"
-    tp.name.should eq "Horst"
-    tp.unpublished_data['name'].should eq 'hallo!'
+    expect(tp.name).to eq 'Horst'
+    expect(tp.unpublished_data['name']).to eql 'hallo!'
     tp.save
-    tp.name.should eq "hallo!"
-    tp.unpublished_data['name'].should eq 'Horst'
+    expect(tp.name).to eq 'hallo!'
+    expect(tp.unpublished_data['name']).to eql 'Horst'
     tp.revert!
-    tp.name.should eq "hallo!"
-    tp.unpublished_data['name'].should eq 'hallo!'
+    expect(tp.name).to eq 'hallo!'
+    expect(tp.unpublished_data['name']).to eql 'hallo!'
   end
 
   it "attachments" do
@@ -45,40 +45,41 @@ describe Contentr::Paragraph do
     tp.name = "hallo!"
     tp.photo = asset('tenderlove.png')
     tp.save
-    tp.name.should be_nil
-    tp.photo.should_not be_present
+    expect(tp.name).to be_nil
+    expect(tp.photo).to_not be_present
     tp.reload
-    tp.unpublished_data['name'].should eq 'hallo!'
-    tp.name.should be_nil
+
+    expect(tp.unpublished_data['name']).to eql 'hallo!'
+    expect(tp.name).to be_nil
     tp.publish!
-    tp.name.should eq 'hallo!'
-    tp.photo.should be_present
-    tp.photo.url.should match(/file\/tenderlove.png/)
+    expect(tp.name).to eq 'hallo!'
+    expect(tp.photo).to be_present
+    expect(tp.photo.url).to match(/file\/tenderlove.png/)
     tp.photo = asset('yehuda.png')
     tp.save
-    tp.photo.url.should match(/tenderlove/)
-    tp.for_edit.photo.url.should match(/yehuda/)
+    expect(tp.photo.url).to match(/tenderlove/)
+    expect(tp.for_edit.photo.url).to match (/yehuda/)
     tp.publish!
-    tp.photo.url.should match(/yehuda/)
+    expect(tp.photo.url).to match(/yehuda/)
     tp.photo = asset('tenderlove.png')
     tp.save
     tp.revert!
-    tp.photo.url.should match(/file\/yehuda/)
-    tp.for_edit.photo.url.should match(/yehuda/)
+    expect(tp.photo.url).to match(/file\/yehuda/)
+    expect(tp.for_edit.photo.url).to match(/yehuda/)
     tp2 = TestParagraph.new(name: "aloha!", area_name: 'body')
     tp2.save
-    tp2.photo.should_not be_present
+    expect(tp2.photo).to_not be_present
     tp2.photo = asset('dhh.jpg')
     tp2.save
-    tp2.for_edit.photo.url.should match('dhh.jpg')
+    expect(tp2.for_edit.photo.url).to match('dhh.jpg')
     tp2.publish!
-    tp2.photo.url.should match(/dhh.jpg/)
+    expect(tp2.photo.url).to match(/dhh.jpg/)
     tp2.image_asset_wrapper_for("photo").remove_file!(tp2)
     tp2.save
-    tp2.photo.url.should match(/dhh/)
-    tp2.for_edit.photo.should_not be_present
+    expect(tp2.photo.url).to match(/dhh/)
+    expect(tp2.for_edit.photo).to_not be_present
     tp2.publish!
-    tp2.photo.should_not be_present
+    expect(tp2.photo).to_not be_present
   end
 
 end

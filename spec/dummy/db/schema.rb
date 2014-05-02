@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140425141141) do
+ActiveRecord::Schema.define(version: 20140502083553) do
 
   create_table "articles", force: true do |t|
     t.string   "title"
@@ -54,6 +54,8 @@ ActiveRecord::Schema.define(version: 20140425141141) do
     t.integer  "parent_page_id"
     t.integer  "position",       default: 0
     t.string   "type"
+    t.text     "payload"
+    t.boolean  "removable",      default: true
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -62,6 +64,7 @@ ActiveRecord::Schema.define(version: 20140425141141) do
 
   create_table "contentr_page_types", force: true do |t|
     t.string  "name"
+    t.string  "sid"
     t.integer "header_offset",             default: 0
     t.integer "col1_offset",               default: 0
     t.integer "col2_offset",               default: 0
@@ -86,6 +89,7 @@ ActiveRecord::Schema.define(version: 20140425141141) do
     t.string   "ancestry"
     t.string   "url_path"
     t.string   "language"
+    t.boolean  "removable",                   default: true
     t.integer  "page_in_default_language_id"
     t.integer  "page_type_id"
     t.integer  "displayable_id"
@@ -103,6 +107,7 @@ ActiveRecord::Schema.define(version: 20140425141141) do
     t.string   "type"
     t.text     "data"
     t.text     "unpublished_data"
+    t.boolean  "visible",                     default: false
     t.integer  "page_id"
     t.integer  "content_block_id"
     t.integer  "content_block_to_display_id"

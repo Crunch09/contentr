@@ -24,32 +24,33 @@ describe Contentr::Page do
 
   it 'root nodes' do
     root_nodes = Contentr::Page.roots()
-    root_nodes.should_not be_nil
+    expect(root_nodes).to_not be_nil
     expect(root_nodes.count).to be 1
-    root_nodes.first.children[0].name.should eql "Node1"
-    root_nodes.first.children[1].name.should eql "Node2"
-    root_nodes.first.children[2].name.should eql "Node3"
+    expect(root_nodes.first.children.first.name).to eql 'Node1'
+    expect(root_nodes.first.children[1].name).to eql 'Node2'
+    expect(root_nodes.first.children[2].name).to eql 'Node3' 
   end
 
   it 'parent and children relation' do
     node = Contentr::Page.where(name: "Node21").first
-    node.should_not be_nil
+    expect(node).to_not be_nil
 
     # children
-    node.children.should_not be_empty
-    node.children[0].name.should eql "Node211"
-    node.children[1].name.should eql "Node212"
+    expect(node.children).to_not be_empty
+    expect(node.children.first.name).to eql 'Node211'
+    expect(node.children[1].name).to eql 'Node212'
 
     # parent
-    node.children[0].parent.name.should eql "Node21"
-    node.children[1].parent.name.should eql "Node21"
-    node.parent.name.should eql "Node2"
+    expect(node.children.first.parent.name).to eql 'Node21'
+    expect(node.children[1].parent.name).to eql 'Node21'
+
+    expect(node.parent.name).to eql 'Node2'
   end
 
   it "parent ids" do
     node = Contentr::Page.where(name: "Node212").first
-    node.should_not be_nil
-    [node.parent.parent.parent.id, node.parent.parent.id, node.parent.id].should eql node.ancestor_ids
+    expect(node).to_not be_nil
+    expect([node.parent.parent.parent.id, node.parent.parent.id, node.parent.id]).to eql node.ancestor_ids
   end
 
   it "change parent" do
@@ -58,17 +59,17 @@ describe Contentr::Page do
     node2   = Contentr::Page.where(name: "Node2").first
     node3   = Contentr::Page.where(name: "Node3").first
 
-    node21.should eql node211.parent
-    node2.should eql node21.parent
-    [node2.parent.id, node2.id, node21.id].should eql node211.ancestor_ids
-    '/node2/node21/node211'.should eql node211.url_path
+    expect(node21).to eql node211.parent
+    expect(node2).to eql node21.parent
+    expect([node2.parent.id, node2.id, node21.id]).to eql node211.ancestor_ids
+    expect('/node2/node21/node211').to eql node211.url_path
 
     # move node21 to it's new parent node3
     node21.parent = node3
     node21.save!
     node211.reload
 
-    [node3.parent.id, node3.id, node21.id].should eql node211.ancestor_ids
-    '/node3/node21/node211'.should eql node211.url_path
+    expect([node3.parent.id, node3.id, node21.id]).to eql node211.ancestor_ids
+    expect('/node3/node21/node211').to eql node211.url_path
   end
 end

@@ -14,7 +14,7 @@ describe Contentr::Admin::PagesController do
     it 'is able to add paragraphs to areas', js: true do
       contentr_page = create(:contentpage, name: 'bar', slug: 'bar')
       visit contentr.admin_page_path(contentr_page)
-      within('#area-body .new-paragraph-buttons') do
+      within('#area-left_column .new-paragraph-buttons') do
         click_link 'HTML'
       end
       within('.existing-paragraphs form') do
@@ -24,7 +24,7 @@ describe Contentr::Admin::PagesController do
       expect(page.find(".paragraph")).to have_content('hello world!')
     end
 
-    it "resets the publish button if i click on it" do
+    it "resets the publish button if i click on it", js: true do
       contentpage = create(:contentpage_with_paragraphs)
       @para = contentpage.paragraphs.first
       @para.body = "hell yeah"
@@ -41,7 +41,7 @@ describe Contentr::Admin::PagesController do
     it "shows the paragraphs of the page" do
       contentpage = create(:contentpage_with_paragraphs)
       visit(contentr.admin_page_path(contentpage))
-      expect(page.all(:css, '.existing-paragraphs').count).to be(2)
+      expect(page.all(:css, '.existing-paragraphs').count).to be(4)
     end
 
     it "deletes a paragraph when i click on delete" do
@@ -71,14 +71,14 @@ describe Contentr::Admin::PagesController do
         partial: '_article')
       visit(contentr.admin_page_path(contentpage))
       expect(page.all('.existing-paragraphs')).not_to have_content('Artikel anzeigen')
-      within('#area-body .new-paragraph-buttons') do
+      within('#area-center_column .new-paragraph-buttons') do
         click_link 'Content Block'
       end
       within('.existing-paragraphs form') do
         select 'Artikel anzeigen', from: 'Content block to display'
         click_button 'Save Paragraph'
       end
-      expect(page.find('.existing-paragraphs[data-area="area-body"]')).to have_content(article.title)
+      expect(page.find('.existing-paragraphs[data-area="area-center_column"]')).to have_content(article.title)
     end
 
     it 'loads existing content blocks' do
@@ -86,7 +86,7 @@ describe Contentr::Admin::PagesController do
       article = create(:article)
       contentpage = create(:contentpage_with_content_block_paragraph)
       visit(contentr.admin_page_path(contentpage))
-      expect(page.find('.existing-paragraphs[data-area="area-body"]')).to have_content(article.title)
+      expect(page.find('.existing-paragraphs[data-area="area-center_column"]')).to have_content(article.title)
     end
   end
 

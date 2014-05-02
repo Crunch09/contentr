@@ -8,11 +8,11 @@ div id="paragraph_#{paragraph.id}" class="paragraph"
       .col-xs-2.col-sm-4.btn_area
         = link_to(fa_icon('edit'),
             contentr.edit_admin_paragraph_path(paragraph), rel: 'contentr-overlay',
-              class: 'btn btn-mini btn-inverse paragraph-edit-btn', remote: true, data: {id: paragraph.id})
+              class: 'btn btn-mini btn-inverse paragraph-edit-btn margin-computed-right', remote: true, data: {id: paragraph.id})
         = link_to("<i class='fa fa-trash-o'></i>".html_safe,
             contentr.admin_paragraph_path(paragraph),
             :method => :delete,
-            class: 'btn btn-mini btn-inverse remove-paragraph-btn',
+            class: 'btn btn-mini btn-inverse remove-paragraph-btn margin-computed-right',
             data: { confirm: 'Really delete?' })
         = contentr_paragraph_visible_icon(paragraph)
   .actual_content
