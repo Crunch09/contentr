@@ -5,7 +5,6 @@ module Contentr
     has_many :usages, dependent: :destroy, inverse_of: :content_block_to_display,
       class_name: 'Contentr::ContentBlockParagraph', foreign_key: :content_block_to_display_id
 
-    validates :language, presence: true
     validates :name, presence: true
     validate :partial_xor_paragraphs
 

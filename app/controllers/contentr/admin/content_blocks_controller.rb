@@ -43,6 +43,6 @@ class Contentr::Admin::ContentBlocksController < Contentr::Admin::ApplicationCon
   private
 
   def content_block_params
-    params.require(:content_block).permit(:name, :language, :partial)
+    params.require(:content_block).permit(:name, :partial)
   end
 end
