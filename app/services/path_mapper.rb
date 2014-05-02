@@ -1,4 +1,5 @@
 class PathMapper < Struct.new(:obj)
+  cattr_accessor :locale
   include Rails.application.routes.url_helpers
 
   def path
@@ -6,6 +7,6 @@ class PathMapper < Struct.new(:obj)
   end
 
   def article_map
-    article_path(obj, locale: :en)
+    article_path(obj, locale: PathMapper.locale || I18n.locale)
   end
 end

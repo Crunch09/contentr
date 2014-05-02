@@ -18,10 +18,13 @@ ul.nav.nav-tabs
   - if @page.displayable
     - navbar.back(t('back'), :back)
     - if @page.default_page.persisted?
-      - navbar.link 'Hauptseite', contentr.admin_page_path(@page.default_page)
+      - navbar.link 'Unterseiten bearbeiten', contentr.admin_sub_pages_path(@page.default_page)
+      - navbar.divider
+      - @page.default_page.children.select{|c| c.language == I18n.default_locale.to_s}.each do |child|
+        - navbar.link child.name, contentr.admin_page_path(child)
   - else
     - if @page.parent.present?
       - navbar.back(t('back'), contentr.admin_page_path(@page.parent))
     - @page.siblings.each do |sibling|
-        - navbar.link(sibling.name, contentr.admin_page_path(sibling), active: (sibling == @page))
+        - navbar.link(sibling.name, contentr.admin_page_path(sibling), active: (sibling == @page || sibling == @page.page_in_default_language))
 

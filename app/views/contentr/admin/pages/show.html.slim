@@ -1,7 +1,7 @@
 ul.nav.nav-tabs
   - FormTranslation.languages.each do |l|
     li class="#{'active' if l.to_s == @page.language}"
-      - page_for_language = @default_page.get_page_for_language(l)
+      - page_for_language = @default_page.get_page_for_language(l, fallback: false)
       - if page_for_language.present?
         - show_page_path = contentr.admin_page_path(page_for_language)
       - else
@@ -30,10 +30,10 @@ ul.nav.nav-tabs
     - navbar.link 'Hauptseite', contentr.admin_page_path(@page), active: true
     - navbar.link 'Unterseiten bearbeiten', contentr.admin_sub_pages_path(@page)
     - navbar.divider
-    - @page.children.each do |child|
+    - @page.children.select{|c| c.language == I18n.default_locale.to_s}.each do |child|
       - navbar.link child.name, contentr.admin_page_path(child)
   - else
     - if @page.parent.present?
       - navbar.back(t('back'), contentr.admin_page_path(@page.parent))
-    - @page.siblings.each do |sibling|
-        - navbar.link(sibling.name, contentr.admin_page_path(sibling), active: (sibling == @page))
+    - @page.siblings.select{|c| c.language == I18n.default_locale.to_s}.each do |sibling|
+        - navbar.link(sibling.name, contentr.admin_page_path(sibling), active: (sibling == @page || sibling == @page.page_in_default_language))

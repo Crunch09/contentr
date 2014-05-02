@@ -10,13 +10,18 @@
     <%= f.input :displayable_type, as: :hidden %>
     <%= f.input :displayable_id, as: :hidden %>
     <%= f.input :page_in_default_language_id, as: :hidden %>
+    <%= f.input :parent_id, as: :hidden %>
     <%= f.input :slug, required: false %>
     <% unless @page.is_a?(Contentr::Site) %>
         <%= f.input :linked_to, required: true if @page.is_a?(Contentr::LinkedPage) %>
         <%= f.input :layout if @page.is_a?(Contentr::ContentPage) %>
     <% end %>
     <%#= f.input :linked_to, :required => false %>
-    <%= f.association :page_type %>
+    <% if @page.page_in_default_language.present? %>
+        <%= f.input :page_type_id, as: :hidden %>
+    <% else %>
+        <%= f.association :page_type %>
+    <% end %>
     <%= f.button :submit %>
     <%= link_to t('cancel'), :back %>
 <% end %>

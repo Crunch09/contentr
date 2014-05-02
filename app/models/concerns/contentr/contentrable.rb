@@ -7,30 +7,28 @@ module Contentr
       has_one :default_page, ->{ where(page_in_default_language_id: nil)}, class_name: 'Contentr::Page', as: :displayable
 
       after_create do
-        created_page = self.create_default_page!(name: "#{self.class.name.downcase} #{self.id}",
-          slug: "#{self.class.name.downcase}_#{self.id}", displayable: self,
-          language: I18n.default_locale.to_s)
         page_builder = Contentr::PageBuilder.new
-        if self.class.instance_variable_get('@_provided_sub_pages_page_type').present?
+        page_builder.obj = self
+        if self.class.instance_variable_get('@_provided_pages_page_type').present?
           page_builder.main_page_type = Contentr::PageType.find_by(sid: self.class.instance_variable_get('@_provided_sub_pages_page_type'))
         end
-        page_builder.parent = created_page
-        if self.class.instance_variable_get('@_provided_sub_pages_block').present?
-          page_builder.instance_exec(nil, &self.class.instance_variable_get('@_provided_sub_pages_block'))
+        if self.class.instance_variable_get('@_provided_pages_block').present?
+          page_builder.instance_exec(nil, &self.class.instance_variable_get('@_provided_pages_block'))
         end
       end
     end
 
     def sub_pages
-      self.default_page.children
+      self.default_page.try(:children)
     end
 
     def sub_pages=(pages)
+      raise 'No default page available' unless self.default_page.present?
       self.default_page.children = sub_pages
     end
 
     def sub_pages?
-      self.default_page.children?
+      self.default_page.try(:children?)
     end
 
     def generated_page_for_locale(locale)
@@ -51,9 +49,9 @@ module Contentr
     end
 
     module ClassMethods
-      def provided_sub_pages page_type: nil, &block
-        @_provided_sub_pages_block = block
-        @_provided_sub_pages_page_type = page_type
+      def provided_pages page_type: nil, &block
+        @_provided_pages_block = block
+        @_provided_pages_page_type = page_type
       end
     end # ClassMethods
   end

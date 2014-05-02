@@ -19,6 +19,7 @@ class Contentr::Admin::PagesController < Contentr::Admin::ApplicationController
       @page.page_in_default_language = @default_page
       @page.displayable = @default_page.displayable
       @page.parent = @default_page.parent
+      @page.page_type = @default_page.page_type
     end
   end
 
@@ -26,7 +27,7 @@ class Contentr::Admin::PagesController < Contentr::Admin::ApplicationController
     @page = Contentr::ContentPage.new(page_params)
     if @page.save
       Contentr::NavPoint.create!(title: @page.name, parent_page: @page.parent,
-        page: @page)
+        page: @page) unless @page.page_in_default_language.present?
       redirect_to contentr.admin_page_path(@page), notice: 'Seite wurde erstellt.'
     else
       redirect_to :back, notice: @page.errors.full_messages.join
