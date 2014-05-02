@@ -23,4 +23,5 @@
         input_html: {class: 'margin-computed-right'}, placeholder: 'Name'
     = f.association :page_type, label_html: {class: 'sr-only'}, include_blank: false
     = f.input :language, as: :hidden, input_html: {value: FormTranslation.default_language.to_s, class: 'margin-computed-right'}
+    = f.input :layout, as: :hidden, input_html: {value: @parent_page.layout}
   = f.button :submit, 'Unterseite erstellen', class: 'btn btn-info dontmove'

@@ -4,8 +4,9 @@ class Contentr::PagesController < Contentr::ApplicationController
     @obj = params[:klass].constantize.find(params[:id])
     if @obj.default_page.present?
       @contentr_page = @obj.sub_pages.find_by(slug: params[:args])
+      @root_obj = @obj.default_page
     else
-      @contentr_page = nil
+      @contentr_page = @root_obj = nil
     end
     if @contentr_page.present?
       page_to_display = @contentr_page.get_page_for_language(I18n.locale)
@@ -14,7 +15,7 @@ class Contentr::PagesController < Contentr::ApplicationController
           flash.now[:notice] = 'Content is not available in requested language!!' if @contentr_page
         end
         page_to_display.preview! if params[:preview] == 'true'
-        render action: 'show', layout: "layouts/frontend/#{page_to_display.layout}"
+        render action: 'show', layout: "layouts/#{page_to_display.layout}"
         return
       end
     end

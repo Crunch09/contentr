@@ -9,8 +9,9 @@ module Contentr
       after_create do
         page_builder = Contentr::PageBuilder.new
         page_builder.obj = self
-        if self.class.instance_variable_get('@_provided_pages_page_type').present?
-          page_builder.main_page_type = Contentr::PageType.find_by(sid: self.class.instance_variable_get('@_provided_sub_pages_page_type'))
+        provided_options = self.class.instance_variable_get('@_provided_page_options')
+        if provided_options.present?
+          page_builder.page_options = provided_options
         end
         if self.class.instance_variable_get('@_provided_pages_block').present?
           page_builder.instance_exec(nil, &self.class.instance_variable_get('@_provided_pages_block'))
@@ -49,9 +50,9 @@ module Contentr
     end
 
     module ClassMethods
-      def provided_pages page_type: nil, &block
+      def provided_pages page_type: nil, layout: 'application', &block
         @_provided_pages_block = block
-        @_provided_pages_page_type = page_type
+        @_provided_page_options = {page_type: page_type, layout: layout}
       end
     end # ClassMethods
   end

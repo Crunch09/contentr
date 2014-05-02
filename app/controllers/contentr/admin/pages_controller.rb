@@ -89,7 +89,7 @@ class Contentr::Admin::PagesController < Contentr::Admin::ApplicationController
 
   protected
     def page_params
-      params.require(:page).permit(:name, :parent_id, :published, :language,
+      params.require(:page).permit(:name, :parent_id, :published, :language, :layout,
         :displayable_type, :displayable_id, :slug, :page_type_id, :page_in_default_language_id)#*Contentr::Page.permitted_attributes)
     end
 
