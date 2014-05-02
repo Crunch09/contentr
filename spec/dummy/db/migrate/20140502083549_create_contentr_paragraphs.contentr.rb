@@ -7,6 +7,7 @@ class CreateContentrParagraphs < ActiveRecord::Migration
       t.string 'type'
       t.text 'data'
       t.text 'unpublished_data'
+      t.boolean 'visible', default: false
       t.references 'page'
       t.references :content_block
       t.references :content_block_to_display

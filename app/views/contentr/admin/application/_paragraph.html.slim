@@ -14,5 +14,6 @@ div id="paragraph_#{paragraph.id}" class="paragraph"
             :method => :delete,
             class: 'btn btn-mini btn-inverse remove-paragraph-btn',
             data: { confirm: 'Really delete?' })
+        = contentr_paragraph_visible_icon(paragraph)
   .actual_content
     = render(partial: "contentr/paragraphs/#{paragraph.class.to_s.underscore}", locals: {paragraph: (contentr_publisher? ? paragraph.for_edit : paragraph)})

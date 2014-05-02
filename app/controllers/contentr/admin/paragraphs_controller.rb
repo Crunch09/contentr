@@ -95,6 +95,18 @@ class Contentr::Admin::ParagraphsController < Contentr::Admin::ApplicationContro
     head :ok
   end
 
+  def display
+    paragraph = Contentr::Paragraph.find_by(id: params[:id])
+    paragraph.update(visible: true)
+    redirect_to :back, notice: t('.message')
+  end
+
+  def hide
+    paragraph = Contentr::Paragraph.find_by(id: params[:id])
+    paragraph.update(visible: false)
+    redirect_to :back, notice: t('.message')
+  end
+
   protected
 
   def paragraph_type_class

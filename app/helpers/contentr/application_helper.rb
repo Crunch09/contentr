@@ -41,6 +41,14 @@ module Contentr
       end
     end
 
+    def contentr_paragraph_visible_icon(paragraph)
+      if paragraph.visible?
+        link_to "#{fa_icon('eye-slash')}".html_safe, contentr.hide_admin_paragraph_path(paragraph)
+      else
+        link_to "#{fa_icon('eye')}".html_safe, contentr.display_admin_paragraph_path(paragraph)
+      end
+    end
+
     private
 
     def contentr_render_area(area_name, page)

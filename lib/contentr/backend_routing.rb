@@ -16,7 +16,12 @@ module Contentr::BackendRouting
       end
       resources :sites
       resources :files
-      resources :paragraphs, only: [:edit, :update, :destroy]
+      resources :paragraphs, only: [:edit, :update, :destroy] do
+        member do
+          get :display
+          get :hide
+        end
+      end
       resources :nav_points, only: [:index, :new, :create, :edit, :update, :destroy]
       resources :page_types, only: [:new, :create, :index, :edit, :update]
       resources :content_blocks, only: [:new, :create, :edit, :update, :index] do
