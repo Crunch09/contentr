@@ -46,7 +46,7 @@ jQuery(function($) {
   });
 
   $('.contentr-sub-pages').sortable({
-    items: 'li',
+    items: 'li.sortable',
     handle: '.handle',
     update: function(event, ui) {
       var ids = $(this).sortable('serialize');

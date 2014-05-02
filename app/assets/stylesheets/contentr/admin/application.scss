@@ -138,4 +138,10 @@ div.cur_path{
 .btn-mini{
   margin-left: 10px;
 }
+.list-group-item.unsortable .page-title{
+  padding-left: 18px;
+}
 
+.list-group-item.sortable .page-title span{
+  margin-left: 5px;
+}
