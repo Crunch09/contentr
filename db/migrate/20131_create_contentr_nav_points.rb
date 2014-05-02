@@ -11,6 +11,7 @@ class CreateContentrNavPoints < ActiveRecord::Migration
       t.string :type
       t.text :payload
       t.index :ancestry
+      t.boolean :removable, default: true
 
       t.timestamps
     end

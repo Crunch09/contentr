@@ -12,6 +12,7 @@ class CreateContentrPages < ActiveRecord::Migration
       t.string 'ancestry'
       t.string 'url_path'
       t.string :language
+      t.boolean :removable, default: true
       t.references :page_in_default_language
       t.references :page_type
       t.references :displayable, polymorphic: true
