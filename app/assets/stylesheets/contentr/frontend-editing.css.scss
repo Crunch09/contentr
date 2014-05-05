@@ -120,7 +120,25 @@ $contentr-toolbar-color: #fff !default;
 
   .paragraph {
     .toolbar {
-      background-color: lighten($contentr-toolbar-background-color, 5%);;
+      background-color: lighten($contentr-toolbar-background-color, 15%);;
+      // background-color: gray;
     }
+  }
+}
+
+.contentr-edit-icon{
+  color: orange;
+  display: inline-block;
+
+  &:hover{
+    color: orange;
+  }
+}
+
+.with-contentr-edit-icon{
+  border-bottom: 0px;
+
+  &:last{
+    border-bottom: 1px;
   }
 }

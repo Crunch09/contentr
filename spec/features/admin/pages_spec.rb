@@ -5,7 +5,7 @@ describe Contentr::Admin::PagesController do
   describe '#show' do
     it 'displays the page\'s areas' do
       contentpage_two = create(:contentpage, name: 'bar', slug: 'bar')
-      visit contentr.admin_page_path(contentpage_two)
+      visit contentr.admin_page_path(id: contentpage_two)
       contentpage_two.areas.each do |area|
         expect(page.all('.panel-title')).to have_content(area)
       end
@@ -13,7 +13,7 @@ describe Contentr::Admin::PagesController do
 
     it 'is able to add paragraphs to areas', js: true do
       contentr_page = create(:contentpage, name: 'bar', slug: 'bar')
-      visit contentr.admin_page_path(contentr_page)
+      visit contentr.admin_page_path(id: contentr_page)
       within('#area-left_column .new-paragraph-buttons') do
         click_link 'HTML'
       end

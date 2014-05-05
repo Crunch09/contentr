@@ -49,6 +49,10 @@ module Contentr
       end
     end
 
+    def contentr_new_subpage_link(parent: nil)
+      link_to fa_icon('plus', text: 'Neue Unterseite'), contentr.admin_sub_pages_path(id: @contentr_page, layout_type: 'embedded'), class: 'btn btn-danger show-page-in-iframe', rel: 'contentr-overlay', remote: true
+    end
+
     private
 
     def contentr_render_area(area_name, page)

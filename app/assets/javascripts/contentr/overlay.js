@@ -3,7 +3,9 @@
   var settings = {
     width: '90%',
     height: '90%',
-    close: function() {}
+    close: function() {
+      location.reload();
+    }
   };
 
   var _showOverlay = function(url) {
@@ -61,7 +63,7 @@
       }
 
       // listen for click events on matched elements
-      $('body').on('click', 'a[rel=contentr-overlay]', function() {
+      $(document).on('click', 'a[rel=contentr-overlay]', function() {
         _showOverlay($(this).attr('href'));
         return false;
       });
@@ -85,5 +87,6 @@
       $.error('Method ' +  method + ' does not exist on jQuery.contentr_overlay');
     }
   };
+  $('a[rel=contentr-overlay]').contentr_overlay('init');
 
 })(jQuery);

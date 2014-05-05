@@ -5,7 +5,7 @@ describe Contentr::Admin::ContentBlocksController do
 
     it 'is able to add paragraphs to the content block', js: true do
       content_block = create(:content_block, partial: '').reload
-      visit contentr.admin_content_block_paragraphs_path(content_block)
+      visit contentr.admin_content_block_paragraphs_path(content_block_id: content_block)
       # within('.new-paragraph-buttons') do
       #   click_link 'HTML'
       # end

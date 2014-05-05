@@ -1,5 +1,5 @@
 class Contentr::Admin::PagesController < Contentr::Admin::ApplicationController
-  before_filter :load_root_page
+  before_action :load_root_page
 
   layout 'application'
 
@@ -20,6 +20,7 @@ class Contentr::Admin::PagesController < Contentr::Admin::ApplicationController
       @page.displayable = @default_page.displayable
       @page.parent = @default_page.parent
       @page.page_type = @default_page.page_type
+      @page.layout = @default_page.layout
     end
   end
 
@@ -45,7 +46,6 @@ class Contentr::Admin::PagesController < Contentr::Admin::ApplicationController
     else
       @default_page = @page
     end
-    render action: 'show', layout: 'application'
   end
 
   def edit

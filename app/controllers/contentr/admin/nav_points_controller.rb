@@ -1,5 +1,5 @@
 class Contentr::Admin::NavPointsController < Contentr::Admin::ApplicationController
-  layout 'application'
+
   def index
     @nav_tree = Contentr::NavPoint.navigation_tree
   end
@@ -18,8 +18,9 @@ class Contentr::Admin::NavPointsController < Contentr::Admin::ApplicationControl
   end
 
   def edit
-    @nav_point = Contentr::NavPoint.find(params[:id])
+    @nav_point = Contentr::NavPoint.eager_load(:page).find(params[:id])
     @nav_point.set_tag_from_page
+    @page = @nav_point.page
   end
 
   def update
@@ -41,4 +42,5 @@ class Contentr::Admin::NavPointsController < Contentr::Admin::ApplicationControl
   def nav_point_params
     params.require(:nav_point).permit(:title, :parent_id, :url, :page_tag, :en_title)
   end
+
 end

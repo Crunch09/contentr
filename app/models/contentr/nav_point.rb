@@ -22,7 +22,7 @@ module Contentr
     end
 
     def self.navigation_tree
-      self.arrange
+      self.arrange.select{|p| p.parent_page.nil?}
     end
 
     def set_actual_position!
@@ -47,7 +47,7 @@ module Contentr
     def set_page_from_tag
       if self.page_tag.present?
         tag = Etikett::Tag.find(self.page_tag)
-        self.page = tag.prime.generated_page
+        self.page = tag.prime.default_page
       end
     end
 

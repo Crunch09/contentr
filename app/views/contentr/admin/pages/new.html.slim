@@ -25,6 +25,6 @@ ul.nav.nav-tabs
   - else
     - if @page.parent.present?
       - navbar.back(t('back'), contentr.admin_page_path(@page.parent))
-    - @page.siblings.each do |sibling|
+    - @page.siblings.select{|c| c.language == I18n.default_locale.to_s}.each do |sibling|
         - navbar.link(sibling.name, contentr.admin_page_path(sibling), active: (sibling == @page || sibling == @page.page_in_default_language))
 

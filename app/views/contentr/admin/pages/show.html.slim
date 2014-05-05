@@ -3,7 +3,7 @@ ul.nav.nav-tabs
     li class="#{'active' if l.to_s == @page.language}"
       - page_for_language = @default_page.get_page_for_language(l, fallback: false)
       - if page_for_language.present?
-        - show_page_path = contentr.admin_page_path(page_for_language)
+        - show_page_path = contentr.admin_page_path(id: page_for_language)
       - else
         - show_page_path = contentr.new_admin_page_path(default_page: @default_page, language: l)
       = link_to l, show_page_path
@@ -21,12 +21,11 @@ ul.nav.nav-tabs
 - bsat_page_actions do |actions|
   - actions.add t('.preview'), contentr_link_to_preview_for(@page), link_to_options: { target: '_blank' }
   - if @page.published?
-    - actions.add t('.hide_page'), contentr.hide_admin_page_path(@page), link_to_options: { class: 'btn btn-warning'}
+    - actions.add t('.hide_page'), contentr.hide_admin_page_path(id: @page), link_to_options: { class: 'btn btn-warning'}
   - else
-    - actions.add t('.publish_page'), contentr.publish_admin_page_path(@page), link_to_options: { class: 'btn btn-primary'}
+    - actions.add t('.publish_page'), contentr.publish_admin_page_path(id: @page), link_to_options: { class: 'btn btn-primary'}
 - bsat_sidebar_nav do |navbar|
   - if @page.displayable
-    - navbar.back(t('back'), :back)
     - navbar.link 'Hauptseite', contentr.admin_page_path(@page), active: true
     - navbar.link 'Unterseiten bearbeiten', contentr.admin_sub_pages_path(@page)
     - navbar.divider
@@ -34,6 +33,6 @@ ul.nav.nav-tabs
       - navbar.link child.name, contentr.admin_page_path(child)
   - else
     - if @page.parent.present?
-      - navbar.back(t('back'), contentr.admin_page_path(@page.parent))
+      - navbar.back(t('back'), contentr.admin_page_path(id: @page.parent))
     - @page.siblings.select{|c| c.language == I18n.default_locale.to_s}.each do |sibling|
-        - navbar.link(sibling.name, contentr.admin_page_path(sibling), active: (sibling == @page || sibling == @page.page_in_default_language))
+        - navbar.link(sibling.name, contentr.admin_page_path(id: sibling), active: (sibling == @page || sibling == @page.page_in_default_language))

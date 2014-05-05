@@ -1,6 +1,6 @@
 module Contentr::BackendRouting
   def contentr_backend_routes
-    namespace :admin, module: 'admin' do
+    scope '(:layout_type)', layout_type: /(admin)|(embedded)/, module: 'admin', as: :admin do
       root to: 'pages#index'
       resources :pages do
         member do

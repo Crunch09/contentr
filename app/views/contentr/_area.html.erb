@@ -7,13 +7,13 @@ var settings = {
 
 function closeIFrame(){
   $(window).unbind('resize');
-  $('#contentr-overlay').remove();
+  // $('#contentr-overlay').remove();
   settings.close();
-  location.reload();
+  // location.reload();
 }
 </script>
 <div class="contentr-area" data-contentr-area="<%= area_name %>" data-contentr-page="<%= page.id %>">
-  <% if authorized %>
+  <% if contentr_authorized? %>
     <% unless page.published %>
       <div class="page-published">
         Page is not published yet!
@@ -35,7 +35,7 @@ function closeIFrame(){
   <% paragraphs.each do |p| %>
     <% template_name = p.class.to_s.underscore %>
     <div id="<%= "paragraph_#{p.id}" %>" class="paragraph">
-      <% if authorized %>
+      <% if contentr_authorized? %>
         <div class="toolbar">
           <div class='row'>
             <div class='col-xs-10'>

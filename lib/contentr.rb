@@ -47,6 +47,8 @@ module Contentr
   mattr_accessor :divider_between_page_and_children
   @@divider_between_page_and_children = ''
 
+  mattr_accessor :layout_type
+
   # Default way to setup Contentr
   def self.setup
     yield self
