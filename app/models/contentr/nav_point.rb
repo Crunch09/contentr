@@ -57,6 +57,10 @@ module Contentr
       end
     end
 
+    def self.navigation_roots
+      roots.where(parent_page_id: nil)
+    end
+
     private
 
     def url_xor_page

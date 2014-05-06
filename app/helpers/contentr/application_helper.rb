@@ -71,5 +71,29 @@ module Contentr
         }
       )
     end
+
+    def show_frontend_subtree(subtree, children)
+      return [] if children.empty?
+      st = children.keys.collect do |nt|
+        lic = content_tag(:li, :'data-id' => nt.id, class: 'dropdown-submenu') do
+          st = show_frontend_subtree(nt, children[nt])
+          if st.none?
+            l = link_to "#{nt['title']}", nt.link, class: 'real-link'
+          else
+            l = link_to "#{nt['title'].html_safe}".html_safe, '#', data: {toggle: 'dropdown'}, class: 'dropdown-toggle'
+            l + st.join('').html_safe
+          end
+        end
+        lic
+      end
+      if subtree.parent.nil?
+        ul_class = 'nav'
+      else
+        ul_class = 'dropdown-menu'
+      end
+      st.prepend("<ul class='col-sm-4 tree #{ul_class}' data-parent='#{subtree.id}'>")
+      st.append('</ul>')
+      st
+    end
   end
 end
