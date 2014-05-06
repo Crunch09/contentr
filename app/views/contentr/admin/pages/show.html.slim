@@ -19,6 +19,7 @@ ul.nav.nav-tabs
 
 - bsat_page_title @page.name
 - bsat_page_actions do |actions|
+  - actions.add fa_icon('edit', text: t('.edit')), contentr.edit_admin_page_path(@page), link_to_options: { class: 'btn btn-primary'}
   - actions.add t('.preview'), contentr_link_to_preview_for(@page), link_to_options: { target: '_blank' }
   - if @page.published?
     - actions.add t('.hide_page'), contentr.hide_admin_page_path(id: @page), link_to_options: { class: 'btn btn-warning'}
