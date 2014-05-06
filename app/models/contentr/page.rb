@@ -2,6 +2,7 @@
 
 module Contentr
   class Page < ActiveRecord::Base
+    include Etikett::Taggable
 
     # Relations
     has_many :paragraphs, class_name: 'Contentr::Paragraph'
@@ -37,6 +38,23 @@ module Contentr
     before_validation :generate_slug
     before_validation :clean_slug
     after_save        :path_rebuilding
+
+    master_tag do |page|
+      if(klass = (page.parent.try(:displayable).presence || page.displayable.presence))
+        prepended_name = "#{klass.master_tag.name} /"
+      end
+      if page.displayable.nil?
+        name = "#{prepended_name} #{page.name}"
+      else
+        name = "#{prepended_name} Hauptseite"
+      end
+
+      {
+        sid: name,
+        nice: name
+      }
+
+    end
 
 
     attr_accessor :in_preview_mode

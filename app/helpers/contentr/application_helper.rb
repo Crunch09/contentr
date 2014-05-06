@@ -78,9 +78,9 @@ module Contentr
         lic = content_tag(:li, :'data-id' => nt.id, class: 'dropdown-submenu') do
           st = show_frontend_subtree(nt, children[nt])
           if st.none?
-            l = link_to "#{nt['title']}", nt.link, class: 'real-link'
+            l = link_to nt.title, nt.link, class: 'real-link'
           else
-            l = link_to "#{nt['title'].html_safe}".html_safe, '#', data: {toggle: 'dropdown'}, class: 'dropdown-toggle'
+            l = link_to nt.title.html_safe, '#', data: {toggle: 'dropdown'}, class: 'dropdown-toggle'
             l + st.join('').html_safe
           end
         end

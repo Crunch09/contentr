@@ -5,18 +5,7 @@ module Contentr
     included do
       has_many :generated_pages, class_name: 'Contentr::Page', as: :displayable
       has_one :default_page, ->{ where(page_in_default_language_id: nil)}, class_name: 'Contentr::Page', as: :displayable
-
-      after_create do
-        page_builder = Contentr::PageBuilder.new
-        page_builder.obj = self
-        provided_options = self.class.instance_variable_get('@_provided_page_options')
-        if provided_options.present?
-          page_builder.page_options = provided_options
-        end
-        if self.class.instance_variable_get('@_provided_pages_block').present?
-          page_builder.instance_exec(nil, &self.class.instance_variable_get('@_provided_pages_block'))
-        end
-      end
+      after_save :create_pages_for_object, if: :id_changed? 
     end
 
     def sub_pages
@@ -47,6 +36,18 @@ module Contentr
         page_to_display = possible_pages.find{|pp| pp.page_in_default_language_id.nil?}
       end
       page_to_display
+    end
+
+    def create_pages_for_object
+      page_builder = Contentr::PageBuilder.new
+      page_builder.obj = self
+      provided_options = self.class.instance_variable_get('@_provided_page_options')
+      if provided_options.present?
+        page_builder.page_options = provided_options
+      end
+      if self.class.instance_variable_get('@_provided_pages_block').present?
+        page_builder.instance_exec(nil, &self.class.instance_variable_get('@_provided_pages_block'))
+      end
     end
 
     module ClassMethods
