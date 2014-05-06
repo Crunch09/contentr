@@ -4,4 +4,5 @@
     li data-id=nt.id
       = nt.title
       = show_subtree(nt, @nav_tree[nt]).join('').html_safe
-javascript:
+- bsat_page_actions do |actions|
+  - actions.add fa_icon('plus-circle', text: t('.new')), contentr.new_admin_nav_point_path, link_to_options: { class: 'btn btn-primary'}
