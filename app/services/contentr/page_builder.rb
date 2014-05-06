@@ -26,7 +26,9 @@ module Contentr
         page.displayable = obj if for_object
         page.slug = slug if slug.present?
         page.save!
-        nav_point = Contentr::NavPoint.create!(title: real_name, page: page, parent_page: page.parent, en_title: en, removable: removable)
+        if page.parent.present?
+          Contentr::NavPoint.create!(title: real_name, page: page, parent_page: page.parent, en_title: en, removable: removable)
+        end
         if block_given?
           page_builder = Contentr::PageBuilder.new(parent: page, page_options: self.page_options, obj: self.obj)
           page_builder.instance_exec(nil, &block)
