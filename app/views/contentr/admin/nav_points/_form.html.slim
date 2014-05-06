@@ -3,7 +3,7 @@
     = l.input :title
   = f.input :parent_id, as: :hidden
   = f.input :url
-  = f.input :page_tag, as: :tag_single_chooser, class_name: 'Etikett::Tag', multiple: false
+  = f.input :page_tag, as: :tag_single_chooser, class_name: 'Etikett::Contentr_PageTag', multiple: false
   .well.centered.control-bar
     = f.button :submit, class: 'submit_btn btn margin-computed-right'
     = link_to t('cancel'), :back
