@@ -8,7 +8,7 @@ class Contentr::Admin::ApplicationController < Contentr::ApplicationController
   end
 
   def check_authorization
-    raise "Access Denied" unless contentr_authorized?
+    redirect_to main_app.root_path unless contentr_authorized?
   end
 
   def default_url_options(options={})
