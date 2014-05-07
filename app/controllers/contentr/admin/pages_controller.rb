@@ -25,7 +25,7 @@ class Contentr::Admin::PagesController < Contentr::Admin::ApplicationController
   end
 
   def create
-    @page = Contentr::ContentPage.new(page_params)
+    @page = Contentr::Page.new(page_params)
     if @page.save
       Contentr::NavPoint.create!(title: @page.name, parent_page: @page.parent,
         page: @page) unless @page.page_in_default_language.present?
