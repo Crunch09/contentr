@@ -187,7 +187,7 @@ module Contentr
       else
         current_page = self
       end
-      url_path = "#{current_page.path.select{|p| p.displayable || p.id == current_page.id}.collect(&:url_map).compact.join('/')}".squeeze('/')
+      url_path = "#{current_page.path.includes(:displayable).select{|p| p.displayable || p.id == current_page.id}.collect(&:url_map).compact.join('/')}".squeeze('/')
       PathMapper.locale = nil
       url_path
     end
@@ -230,7 +230,7 @@ module Contentr
 
     def get_page_for_language(language, fallback: true)
       return self if self.language == language.to_s
-      translated_page = self.pages_in_foreign_languages.find_by(language: language.to_s)
+      translated_page = self.pages_in_foreign_languages.includes(:paragraphs).find_by(language: language.to_s)
       translated_page || (fallback ? self : nil)
     end
 
@@ -240,6 +240,10 @@ module Contentr
 
     def self.default_page_for_slug(slug)
       self.find_by(slug: slug, page_in_default_language_id: nil)
+    end
+
+    def viewable?(preview_mode: false)
+      self.present? && (self.visible? || preview_mode)
     end
 
     protected

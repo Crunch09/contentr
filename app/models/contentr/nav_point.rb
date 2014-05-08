@@ -22,7 +22,7 @@ module Contentr
     end
 
     def self.navigation_tree
-      self.arrange.select{|p| p.parent_page.nil?}
+      self.where(parent_page_id: nil).includes(page: :page_in_default_language).arrange
     end
 
     def set_actual_position!
