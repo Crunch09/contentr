@@ -46,7 +46,7 @@ module Contentr
         page_builder.page_options = provided_options
       end
       if self.class.instance_variable_get('@_provided_pages_block').present?
-        page_builder.instance_exec(nil, &self.class.instance_variable_get('@_provided_pages_block'))
+        page_builder.instance_exec(self, &self.class.instance_variable_get('@_provided_pages_block'))
       end
     end
 

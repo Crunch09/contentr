@@ -8,7 +8,7 @@ module Contentr
       @obj = hash.fetch :obj, nil
     end
 
-    def create name, slug: nil, en: nil, page_type: nil, publish: true, removable: false, for_object: false, &block
+    def create name, slug: nil, en: nil, page_type: nil, publish: true, removable: false, for_object: false, displayable: nil, &block
       ActiveRecord::Base.transaction do
         page_type = page_type.presence || Contentr::PageType.find_by(sid: page_options[:page_type])
         if name.respond_to?(:call)
@@ -23,7 +23,7 @@ module Contentr
           published: publish,
           layout: page_options[:layout],
           removable: false)
-        page.displayable = obj if for_object
+        page.displayable =  displayable || obj if for_object
         page.slug = slug if slug.present?
         page.save!
         if page.parent.present?
