@@ -14,7 +14,6 @@ module Contentr::BackendRouting
         end
         resources :paragraphs, only: [:show, :update, :index]
       end
-      resources :sites
       resources :files
       resources :paragraphs, only: [:edit, :update, :destroy] do
         member do
