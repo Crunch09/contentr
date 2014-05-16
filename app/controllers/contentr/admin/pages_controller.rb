@@ -3,15 +3,6 @@ class Contentr::Admin::PagesController < Contentr::Admin::ApplicationController
 
   layout 'application'
 
-  def index
-    @pages = @root_page.present? ? @root_page.children
-                                 : Contentr::Site.all
-    @page = @root_page.present? ? @root_page : nil
-    # @contentr_page = @root_page.present? ? @root_page : Contentr::Site.default
-    @contentr_page = @root_page.present? ? @root_page : nil
-    tabulatr_for @pages
-  end
-
   def new
     @default_page = Contentr::Page.find(params[:default_page])
     @page = Contentr::Page.new(language: params[:language])
@@ -56,8 +47,7 @@ class Contentr::Admin::PagesController < Contentr::Admin::ApplicationController
   def update
     @page = Contentr::Page.find(params[:id])
     if @page.update(page_params)
-      flash[:success] = 'Page updated.'
-      redirect_to contentr.admin_pages_path(:root => @page.root)
+      redirect_to contentr.admin_page_path(@page), notice: 'Seite wurde aktualisiert.'
     else
       render :action => :edit
     end
@@ -66,7 +56,7 @@ class Contentr::Admin::PagesController < Contentr::Admin::ApplicationController
   def destroy
     page = Contentr::Page.find(params[:id])
     page.destroy
-    redirect_to contentr.admin_pages_path(:root => @root_page)
+    redirect_to :back, notice: 'Seite wurde entfernt'
   end
 
   def publish

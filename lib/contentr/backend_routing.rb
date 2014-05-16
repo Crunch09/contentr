@@ -2,7 +2,7 @@ module Contentr::BackendRouting
   def contentr_backend_routes
     scope '(:layout_type)', layout_type: /(admin)|(embedded)/, module: 'admin', as: :admin do
       root to: 'pages#index'
-      resources :pages do
+      resources :pages, except: [:index] do
         member do
           get :publish
           get :hide
