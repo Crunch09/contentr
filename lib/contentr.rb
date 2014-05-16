@@ -4,6 +4,7 @@ require 'rails'
 require 'simple_form'
 require "compass"
 require 'form_translation'
+require 'etikett'
 
 module Contentr
 
