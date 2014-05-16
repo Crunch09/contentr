@@ -40,7 +40,7 @@ class Contentr::Admin::NavPointsController < Contentr::Admin::ApplicationControl
   private
 
   def nav_point_params
-    params.require(:nav_point).permit(:title, :parent_id, :url, :page_tag, :en_title)
+    params.require(:nav_point).permit(:title, :parent_id, :url, :page_tag, :en_title, :visible)
   end
 
 end

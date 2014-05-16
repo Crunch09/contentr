@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140502083553) do
+ActiveRecord::Schema.define(version: 20140502102250) do
 
   create_table "articles", force: true do |t|
     t.string   "title"
@@ -22,7 +22,6 @@ ActiveRecord::Schema.define(version: 20140502083553) do
 
   create_table "contentr_content_blocks", force: true do |t|
     t.string   "name"
-    t.string   "language"
     t.string   "partial"
     t.string   "visible",    default: "t"
     t.datetime "created_at"

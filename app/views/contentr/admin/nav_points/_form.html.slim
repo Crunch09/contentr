@@ -1,9 +1,10 @@
 = simple_translated_form_for @nav_point, url: (@nav_point.new_record? ? contentr.admin_nav_points_path : contentr.admin_nav_point_path(@nav_point)) do |f|
+  = f.input :visible
   = f.languagify do |l|
     = l.input :title
   = f.input :parent_id, as: :hidden
-  = f.input :url
   = f.input :page_tag, as: :tag_single_chooser, class_name: 'Etikett::Contentr_PageTag', multiple: false
+  = f.input :url
   .well.centered.control-bar
     = f.button :submit, class: 'submit_btn btn margin-computed-right'
     = link_to t('cancel'), :back
