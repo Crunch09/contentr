@@ -24,7 +24,7 @@ class Contentr::Admin::ApplicationController < Contentr::ApplicationController
       if params[:layout_type] == 'embedded' 
         self.class.layout 'embedded'
       else
-        self.class.layout 'application'
+        self.class.layout 'cms'
       end
     end
 end

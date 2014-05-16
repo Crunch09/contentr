@@ -52,8 +52,8 @@ module Contentr
     end
 
     def set_tag_from_page
-      if self.page.present? && self.page.displayable.present?
-        self.page_tag = self.page.displayable.master_tag
+      if self.page.present?
+        self.page_tag = self.page.master_tag
       end
     end
 

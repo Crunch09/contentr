@@ -1,0 +1,22 @@
+= simple_form_for @page,
+    url:    (@page.new_record? ? contentr.admin_pages_path(root: @root_page) : contentr.admin_page_path(root: @root_page)),
+    method: (@page.new_record? ? :post : :patch),
+    html:   {class: 'form-horizontal'} do |f|
+
+    = f.input :published, as: :boolean
+    = f.input :name
+    = f.input :language, as: :hidden
+    = f.input :displayable_type, as: :hidden
+    = f.input :displayable_id, as: :hidden
+    = f.input :page_in_default_language_id, as: :hidden
+    = f.input :parent_id, as: :hidden
+    = f.input :linked_to, required: true if @page.is_a?(Contentr::LinkedPage)
+    - if @page.page_in_default_language.present?
+      = f.input :page_type_id, as: :hidden
+      = f.input :layout, as: :hidden
+    - else
+      = f.input :slug, required: false, wrapper: :prepend, label: @page.parent_url
+      = f.association :page_type
+    .well.centered.control-bar
+      = f.button :submit, class: 'submit_btn btn btn-primary margin-computed-right'
+      = link_to t('cancel'), :back

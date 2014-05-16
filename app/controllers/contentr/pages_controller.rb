@@ -8,7 +8,7 @@ class Contentr::PagesController < Contentr::ApplicationController
     else
       @contentr_page = @root_obj = nil
     end
-    if @contentr_page.viewable?(preview_mode: in_preview_mode?)
+    if @contentr_page.present? && @contentr_page.viewable?(preview_mode: in_preview_mode?)
       @page_to_display = @contentr_page.get_page_for_language(I18n.locale)
       if @page_to_display.present?
         if I18n.locale.to_s != @contentr_page.language

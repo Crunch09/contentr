@@ -3,12 +3,8 @@ ul.tree {
   &, ul {
     list-style-type: none;
     background: image-url("contentr/admin/ul-tree/vline.png") repeat-y;
-    margin: 0;
+    margin: 8px 0;
     padding: 0;
-  }
-
-  ul {
-//    margin-left: 10px;
   }
 
   li {
@@ -18,6 +14,10 @@ ul.tree {
     background: image-url("contentr/admin/ul-tree/node.png") no-repeat;
     color: #369;
     font-weight: bold;
+
+    span{
+      margin-right: 5px;
+    }
   }
 
   li:last-child {

@@ -48,10 +48,10 @@ module Contentr
       end
 
       def link_to_add_to_subtree(subtree)
-        [link_to(fa_icon('plus-circle'), contentr.new_admin_nav_point_path(parent: subtree)),
-         link_to(fa_icon('wrench'), contentr.edit_admin_nav_point_path(subtree)),
+        [link_to(fa_icon('plus-circle'), contentr.new_admin_nav_point_path(parent: subtree), class: 'btn btn-xs btn-primary'),
+         link_to(fa_icon('wrench'), contentr.edit_admin_nav_point_path(subtree), class: 'btn btn-xs btn-info'),
          link_to(fa_icon('minus-circle'), contentr.admin_nav_point_path(subtree),
-            method: :delete, class: 'remove-nav-point', data: {confirm: 'Sind Sie sicher?'})
+            method: :delete, class: 'remove-nav-point', data: {confirm: 'Sind Sie sicher?'}, class: 'btn btn-xs btn-danger')
         ].join(' ')
       end
 
@@ -60,7 +60,7 @@ module Contentr
         st = children.keys.collect do |nt|
           lic = content_tag(:li, :'data-id' => nt.id) do
             st = show_subtree(nt, children[nt])
-            "#{nt['title'].html_safe} #{st.join('').html_safe}".html_safe
+            "<span class='col-xs-8 col-sm-5'>#{nt['title'].html_safe}</span> #{st.join('').html_safe}".html_safe
           end
           lic
         end

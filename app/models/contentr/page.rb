@@ -192,6 +192,21 @@ module Contentr
       url_path
     end
 
+    def parent_url
+      if self.page_in_default_language.present?
+        PathMapper.locale = self.language
+        current_page = self.page_in_default_language
+      else
+        current_page = self
+      end
+      url_path = current_page.ancestors.includes(:displayable).select{|p| p.displayable || p.id == current_page.id}.collect(&:url_map).compact
+      if current_page.displayable.nil? && current_page.parent.displayable.present?
+        url_path << Contentr.divider_between_page_and_children
+      end
+      PathMapper.locale = nil
+      url_path.join('/').squeeze('/')
+    end
+
     def url_map
       if self.displayable.present?
         p = PathMapper.new(self.displayable)
